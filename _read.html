@@ -1,0 +1,195 @@
+
+<script>
+jQuery( document ).ready( 
+	function( $ ) {
+		// XECOTENT내부 반응형을 위한 코드
+		$('.uikit-board .xe_content iframe').wrap('<div class="tm-thumnail"></div>');
+		$('.uikit-board .xe_content embed').wrap('<div class="tm-thumnail"></div>');
+	}
+);
+</script>
+<article id="article" class="uk-article tm-article-document uk-text-break">
+	<!--// 제목 시작 -->
+    <h1 class="uk-article-title-none uk-h2">
+		<!--//분류--><a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}"><span cond="$module_info->use_category=='Y' && $oDocument->get('category_srl')" class="uk-text uk-text-warning uikit-bl_ctg">{$category_list[$oDocument->get('category_srl')]->title}</span> </a>
+		<!--//제목--><a href="{$oDocument->getPermanentUrl()}"><strong class="uk-text uikit-bl_tit">{$oDocument->getTitle()}</strong></a> 
+	</h1>
+	<!--// 제목 끝 -->
+
+	<div class="uk-article-meta uk-grid-small uk-text-center uk-margin-remove uk-padding-remove" uk-grid>	
+		<!--// 메타태그 시작 -->
+		<div class="uk-width-auto uk-float-left uk-padding-remove">
+			<span cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0"><i uk-icon="icon: user"></i> <a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a></span>
+			<span cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()"><i uk-icon="icon: user"></i> <a href="{$oDocument->getHomepageUrl()}" target="_blank" rel="noopener" class="author">{$oDocument->getNickName()}</a></span>
+			<span cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()"><i uk-icon="icon: user"></i> {$oDocument->getNickName()}</span>
+			<span><i uk-icon="icon: clock"></i>  {getTimeGap($oDocument->get('regdate'), "Y.m.d")}</span>
+			<span class="uk-visible@s"><i uk-icon="icon: future"></i>  {getTimeGap($oDocument->get('last_update'),'Y.m.d')}</span>
+			<span>{$lang->readed_count} {$oDocument->get('readed_count')}</i> </span>
+			<span class="uk-visible@s">{$lang->voted_count} {$oDocument->get('voted_count')}</span>
+		</div>
+		<!--// 메타태그 끝 -->
+
+		<!--//게시판 간편메뉴 시작-->
+		<div class="uk-width-expand uk-float-right uk-padding-remove">
+            <button type="button" class="setup-toggle" uk-icon="icon: more-vertical" uk-toggle="target: #settings-toggle"></button>
+            <ul id="settings-toggle" class="setup-toggle uk-list uk-list-divider uk-card uk-card-default uk-card-body uk-padding-remove uk-link-muted" hidden>
+                <li class="uk-padding-small uk-margin-remove uk-text-center">
+                    <span class="cursor left" onclick="fontSizeCtr('m');" title="작게" uk-icon="icon: minus-circle"></span>
+                    <span class="cursor" style="font-size:1.2em;line-height:26px;" title="사이트글꼴크기"> 가 </span>
+                    <span class="cursor right" onclick="fontSizeCtr('p');" title="크게" uk-icon="icon: plus-circle"></span>
+                </li>
+                <li class="uk-padding-small uk-margin-remove">
+                    <a href="{getUrl('act','dispDocumentDeclare','target_srl',$document_srl)}" onclick="popopen(this.href, 'popup'); return false;">{$lang->cmd_declare}</a>
+                </li>
+                <li class="uk-padding-small uk-margin-remove">
+                    <a href="#" onclick="doCallModuleAction('member','procMemberScrapDocument','{$document_srl}'); return false; ">{$lang->cmd_scrap}</a>
+                </li>
+                <li class="uk-padding-small uk-margin-remove">
+                    <a href="{getUrl('module','document','act','dispDocumentPrint','document_srl',$document_srl)}" target="_blank">{$lang->cmd_print}</a>
+                </li>
+            </ul>
+		</div>
+		<!--//게시판 간편메뉴 끝-->
+	</div>
+
+    <hr class="uk-hr uk-margin-small uk-padding-small">
+
+	<!--// 확장변수 출력 시작 -->
+	<table class="uk-table uk-table-striped uk-table-small uk-text-small uk-width-1-1" style="border-bottom:1px solid #e5e5e5" border="0" cellspacing="0" summary="Extra Form Output" cond="$oDocument->isExtraVarsExists() && (!$oDocument->isSecret() || $oDocument->isGranted())">
+		<thead>
+			<tr>
+				<th style="width:20%">{$lang->title}</th>
+				<th style="width:80%">{$lang->content}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr loop="$oDocument->getExtraVars() => $key,$val">
+				<th scope="row" style="vertical-align:middle">{$val->name}</th>
+				<td>{$val->getValueHTML()}</td>
+			</tr>
+		</tbody>
+	</table>
+	<!--// 확장변수 출력 끝 -->
+
+	<!--// 내용 시작 -->
+    <div class="tm-content uk-width-1-1 uk-text-break">
+		<!--@if($oDocument->isSecret() && !$oDocument->isGranted())-->
+		<form action="./" method="get" onsubmit="return procFilter(this, input_password)" class="secretForm">
+			<input type="hidden" name="mid" value="{$mid}" />
+			<input type="hidden" name="page" value="{$page}" />
+			<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+			<p><label for="cpw">{$lang->msg_is_secret} {$lang->msg_input_password}</label></p>
+			<p><input type="password" name="password" id="cpw" class="iText" /><input type="submit" value="{$lang->cmd_input}" class="btn" />
+			</p>
+		</form>
+		<!--@else-->
+		{$oDocument->getContent(false)}
+		<!--@end-->
+	</div>
+	<!--// 내용 끝 -->
+
+	<!--// SNS 공유-->
+	<div class="sns uk-width-1-1 uk-text-center uk-padding-small uk-margin-small">
+		<a href="https://www.facebook.com/" class="facebook uk-link-muted tooltip" title="facebook"><i class="uk-icon-button" uk-icon="icon: facebook"></i></a>
+		<a href="#" class="google uk-link-muted"><i class="uk-icon-button" uk-icon="icon: google-plus" title="google-plus"></i></a>
+		<a href="https://twitter.com/" class="twitter uk-link-muted"><i class="uk-icon-button" uk-icon="icon: twitter" title="twitter"></i></a>
+		<a href="#popup_menu_area" class="document_{$oDocument->document_srl} uk-icon-button" onclick="return false" uk-icon="icon: link" title="{$lang->cmd_document_do}"></a>
+	</div>
+	<script>
+		var sTitle = '{$oDocument->getTitleText()}';
+		jQuery(function($){
+			$('.twitter').snspost({ type : 'twitter', content : sTitle + ' {$oDocument->getPermanentUrl()}' });
+			$('.facebook').snspost({ type : 'facebook', content : sTitle });
+			$('.google').snspost({ type : 'google', content : sTitle });
+		});
+	</script>
+	<!--// SNS 공유 -->
+	<!--// 추천 비추천 시작 -->
+	<div class="vote uk-width-1-1 uk-text-center uk-padding-large uk-margin-remove">
+	    <a cond="$oDocument->getVoted() === false || $oDocument->getVoted() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;" class="voted uk-link-muted"> <i class="xi-thumbs-up"></i> {$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
+		<a cond="$oDocument->getVoted() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;" class="voted uk-link-muted"> <i class="xi-thumbs-up"></i> {$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
+		<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() > 0" herf="#" onclick="doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;" class="voted uk-link-muted"> <i class="xi-thumbs-down"></i> {$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
+		<a cond="$oDocument->getVoted() < 0" herf="#" onclick="doCallModuleAction('document','procDocumentVoteDownCancel','{$oDocument->document_srl}');return false;" class="voted uk-link-muted"> <i class="xi-thumbs-down"></i> {$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>	
+	</div>
+	<!--// 추천 비추천 끝 -->
+	
+	<!--// 태그리스트 시작 -->
+	{@ $tag_list = $oDocument->get('tag_list') }
+	<div cond="$tag_list" class="vote uk-width-1-1 uk-text-left uk-padding-small">
+		<!--@foreach($tag_list as $tag)-->
+		<a href="{getUrl('search_target','tag','search_keyword',$tag,'document_srl','')}" rel="tag"><span class="uk-label"># {htmlspecialchars($tag)}</span></a>
+		<!--@end-->
+    </div>
+	<!--// 태그리스트 끝 -->
+	
+	<!--// 첨부 파일 -->
+	<hr cond="$oDocument->hasUploadedFiles()" class="uk-hr">
+	<div cond="$oDocument->hasUploadedFiles()" class="fileList">
+		<h4 class="uk-h4">{$lang->uploaded_file} {$lang->file} <a>{$oDocument->hasUploadedFiles()}</a></h4>
+
+		<ul class="files uk-child-width-expand@s uk-text-small" uk-grid>
+            <li class="uk-width-1-2@s uk-width-1-3@l uk-width-1-4@xl uk-margin-remove" loop="$oDocument->getUploadedFiles()=>$key,$file">
+			<a href="{getUrl('')}{$file->download_url}" style="text-decoration:none;">
+				<div class="uk-alert uk-margin-small-bottom">
+					<h6 class="uk-h6 uk-text-bold uk-padding-remove uk-margin-remove">{$file->source_filename}</h6>
+					<span class="fileSize">{FileHandler::filesize($file->file_size)}</span>
+					<i style="top:33%;right:10px;position:absolute;" uk-icon="icon: download"></i>
+				</div>
+			</a>
+			</li>
+		</ul>
+	</div>
+	<hr cond="$oDocument->hasUploadedFiles()" class="uk-hr">
+	<!-- //첨부 파일 -->
+
+	<div cond="$module_info->display_sign!='N'&&($oDocument->getProfileImage()||$oDocument->getSignature())" class="tm-sign uk-alert uk-margin-remove uk-grid-small uk-flex-middle" uk-grid>
+		<div class="uk-width-auto">
+			<img class="uk-border-circle" width="60" height="60" cond="$oDocument->getProfileImage()" src="{$oDocument->getProfileImage()}" alt="Profile" />
+		</div>
+		<div class="uk-width-expand">
+			<h3 class="uk-card-title uk-margin-remove-bottom">{$oDocument->getNickname()}</h3>
+			<p cond="$oDocument->getSignature()" class="uk-text-meta uk-margin-remove-top">{$oDocument->getSignature()}</p>
+		</div>
+	</div>
+
+</article>
+
+<hr class="uk-hr">
+<script>
+	function delDocument(trb_srl){
+		var msg = window.confirm('주의! 삭제 후 복구 하실 수 없습니다');
+		var msg1 = window.confirm('정말로 게시글을 삭제합니까?');
+		if( msg && msg1 ){
+			var params = new Array();
+			params["document_srl"] = trb_srl;
+			exec_xml("board","procBoardDeleteDocument", params, function(){
+				location.href="{getUrl('mid',$mid,'act','','document_srl','')}"; 
+			})
+		}else{
+			alert(msg);
+		}
+	};
+</script>
+
+<!--// 하단 메뉴 시작 -->
+<div class="uk-grid-small uk-text-center" uk-grid>
+    <div class="uk-width-auto uk-text-left">
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardVoteLog','target_srl',$oDocument->document_srl,'target','document')}"><i uk-icon="icon: users"></i> {$lang->cmd_document_vote_user}</a>
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$update_view" ><i uk-icon="icon: history"></i> {$lang->update_log}</a>
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i uk-icon="icon: pencil"></i> {$lang->cmd_modify}</a>
+		<!--//<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i uk-icon="icon: trash"></i> {$lang->cmd_delete}</a>-->
+		<a class="uk-button uk-button-default" href="#" cond="$oDocument->isEditable()" onclick="delDocument({$oDocument->document_srl});return false"><i uk-icon="icon: trash"></i> {$lang->cmd_delete}</a>
+	</div>
+    <div class="uk-width-expand uk-text-right">
+		<a href="{getUrl('document_srl','')}" class="uk-button uk-button-primary"><i uk-icon="icon: list"></i>{$lang->cmd_list}</a>
+	</div>
+</div>
+<!--// 하단 메뉴 끝 -->
+
+<!--// 엮인글 시작 -->
+<include target="_trackback.html" cond="$oDocument->allowTrackback()"/>
+<!--// 엮인글 끝 -->
+
+<!--// 댓글 시작 -->
+<include target="_comment.html" />
+<!--// 댓글 끝 -->

@@ -1,0 +1,24 @@
+
+    <!--회원 아이디-->
+    <span cond="false" class="nick member_{$document->get('member_srl')}">{$document->getUserID(15)}</span>
+    <!--회원 이름-->
+    <span cond="false" class="nick member_{$document->get('member_srl')}">{$document->getUserName(15)}</span>
+    <!--회원 닉네임-->
+    <span class="nick member_{$document->get('member_srl')}">{$document->getNickName(15)}</span>
+        
+    <!--정렬 번호-->
+    <span cond="false" class="no document">
+        <block cond="$document_srl==$document->document_srl">&raquo;</block>
+        <block cond="$document_srl!=$document->document_srl">{$no}</block>
+    </span>
+    <!--// 등록일 -->
+    <span class="time regdate">{getTimeGap($document->get('regdate'), $board_date_type)}</span>
+    <!--// 마지막 업데이트 -->
+    <span cond="false" class="time update">{getTimeGap($document->get('last_update'), $board_date_type)}</span>
+    <!--// 댓글 -->
+    <span cond="false" class="no readed">{$document->get('readed_count')>0?$document->get('readed_count'):'0'}</span>
+    <!--// 조회수 -->
+    <span cond="false" class="no voted">{$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</span>
+    <span cond="false" class="no blamed">{$document->get('blamed_count')!=0?$document->get('blamed_count'):'0'}</span>
+    <!--// 댓글 -->
+    <span cond="false" class="no comment">{$document->get('comment_count')!=0?$document->get('comment_count'):'0'}</span>

@@ -1,0 +1,244 @@
+<block cond="$oDocument->get('comment_status') == 'ALLOW'">
+<script>
+	function delComment(cmt_srl){
+		var msg = window.confirm('정말로 댓글을 삭제합니까?');
+		if(msg){
+			var params = new Array();
+			params["comment_srl"] = cmt_srl;
+			exec_xml("board","procBoardDeleteComment", params, function(){
+				location.reload()
+			})
+		}else{
+			alert(msg);
+		}
+	};
+</script>
+{@$cnt = 0}
+<h2 class="uk-h3 tm-heading-fragment">{$lang->comment} <a href="#comment">{$oDocument->getCommentcount()}</a></h2>
+<div cond="!$oDocument->getCommentcount()" id="comment" class="uk-placeholder uk-text-center">"<a class="uk-link-reset" href="{$oDocument->getPermanentUrl()}#comment">{$oDocument->getTitle()}</a>"의 첫댓글을 달아주세요!</div>
+
+<style>
+		.uikit-cmt-list{
+			width:100%;
+			padding:0;
+			margin:0;
+		}
+		.indent{
+			margin-left:0;
+			margin-top:0!important;
+			padding:20px 0;
+			border-bottom:1px solid #efefef;
+		}
+		.indent0{
+			padding-left:0;
+			width:100%;
+		}
+		.indent1{
+			padding-left:4%;
+			width:calc(100% - 4%);
+		}
+		.indent2{
+			padding-left:6%;
+			width:calc(100% - 6%);
+		}
+		.indent3{
+			padding-left:8%;
+			width:calc(100% - 8%);
+		}
+		.indent4{
+			padding-left:10%;
+			width:calc(100% - 10%);
+		}
+		.indent5,
+		.indent6,
+		.indent7,
+		.indent8,
+		.indent9,
+		.indent10{
+			padding-left:12%;
+			width:calc(100% - 12%);
+		}
+		.tm-padding-remover,
+		.tm-padding-remover li:first-child{
+			padding-left:0 !important;
+			margin-left:0 !important;
+		}
+
+		.uikit-board-cmt_metalist{
+			margin:0 0 0 !important;
+			height:0.8em;
+			line-height:0.8em;
+			padding:0 !important;
+		}
+
+		.uikit-board-cmt_metalist li{
+			margin:0;
+		}
+		.uikit-board-cmt_metalist li *{
+			font-size:0.8em !important;
+			padding:0;
+		}
+		.uikit-board-cmt_metalist li:first-child{
+			padding-left:30px;
+		}
+		.uikit-board-cmt_content{
+			margin-top:0.8em;
+			padding:0 30px 10px;
+			font-size:0.9em;
+		}
+		.uikit-board-cmt-btn {
+			float:left;
+			margin:0 2px;
+			padding:7px 5px;
+			font-size:0.8em;
+			line-height:1;
+		}
+		.uikit-board-cmt-btn.registration {
+			margin-left:30px;
+		}
+		.uk-comment .reply-icon{
+			margin-left:-18px;
+		}
+		.uk-comment .reply-icon svg{
+			width:14px;
+			height:14px;
+		}
+	</style>
+
+<ul class="uikit-cmt-list uk-list uk-text-break" cond="$oDocument->getCommentcount()">
+	<li loop="$oDocument->getComments()=>$key,$comment" id="comment_{$comment->comment_srl}" class="uk-comment  indent indent{$comment->get('depth')}" uk-grid>
+		<div class="uk-width-expand uk-padding-remove">
+			<i cond="$comment->get('depth')" class="reply-icon" uk-icon="icon: reply" style="transform: rotate(180deg)"></i>
+			<!--//프로필-->
+			<span class="uk-text uk-text-warning uikit-bl_ctg">
+				<img cond="!$comment->getProfileImage()" src="assets/profile-no.svg" width="26" height="26" class="uk-comment-avatar uk-border-circle tm-profile">
+				<img cond="$comment->getProfileImage()" src="{$comment->getProfileImage()}" width="26" height="26" alt="Profile" class="uk-comment-avatar uk-border-circle tm-profile" />
+			</span>
+			<!--//유저정보-->
+			<strong class="uk-text uikit-bl_tit">
+				<a cond="$comment->member_srl > 0" href="#popup_menu_area" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
+				<a cond="$comment->member_srl <= 0 && $comment->homepage" href="{$comment->getHomepageUrl()}" class="uk-link-reset">{$comment->getNickName()}</a>
+				<a cond="$comment->member_srl <= 0 && !$comment->homepage" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
+				<span class="icon_writer_txt" cond="$oDocument->get('member_srl') == $comment->get('member_srl')">작성자</span>
+			</strong>
+			<!--//버튼-->
+			<ul class="uikit-board-cmt_metalist uk-subnav">
+                <li><a>{getTimeGap($comment->get('regdate'),$board_date_type)}</a></li>
+				<li cond="!$comment->isDeleted()"><a class="uk-link-muted" href="{getUrl('act','dispBoardVoteLog','target_srl',$comment->comment_srl,'target','comment')}">{$lang->cmd_comment_vote_user}</a></li>
+				<li cond="$comment->isDeleted() && $grant->manager"><a href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="uk-text-muted delete"><i class="xi-trash"></i> {$lang->delete_placeholder}</a></li>
+				<li cond="!$comment->isDeleted() && $is_logged"><a class="uk-link-muted comment_{$comment->comment_srl} this" href="#popup_menu_area" onclick="return false">{$lang->cmd_comment_do}</a></li>
+            </ul>
+			<div class="uikit-board-cmt_content tm-contents uk-overflow-auto">
+				
+				
+				<!--@if(!$comment->isAccessible())-->
+				<form action="./" method="get" class="xe_content secretForm" onsubmit="return procFilter(this, input_password)">
+					<p><label for="cpw_{$comment->comment_srl}">{$lang->msg_is_secret} {$lang->msg_input_password}</label></p>
+					<p><input type="password" name="password" id="cpw_{$comment->comment_srl}" class="iText" /><input type="submit" class="btn" value="{$lang->cmd_input}" /></p>
+					<input type="hidden" name="mid" value="{$mid}" />
+					<input type="hidden" name="page" value="{$page}" />
+					<input type="hidden" name="document_srl" value="{$comment->get('document_srl')}" />
+					<input type="hidden" name="comment_srl" value="{$comment->get('comment_srl')}" />
+				</form>
+				<!--@else-->
+				
+				<!--// 대댓글에 위에댓글 유저이름 표시-->
+				<block cond="$mi->read_recomment_mark == '' && $comment->get('depth')">
+					{@$oComment = &getModel('comment');$comment_parent = $oComment->getComment($comment->parent_srl);}
+                    <span class="recmt-mark" cond="$comment->getNickName() != $comment_parent->getNickName()">
+                        <block cond="$lang_type=='ko'"><strong>{$comment_parent->getNickName()}</strong>님께</block>
+                        <block cond="$lang_type!='ko'">To. {$comment_parent->getNickName()}</block>
+						<br/>
+					</span>
+				</block>
+				{$comment->getContent(false)}
+				<!--@end-->
+
+
+				<!--// 첨부 파일 -->
+				<p cond="$comment->hasUploadedFiles()" class="fileList uk-padding-remove uk-margin-remove">
+					<strong class="uk-h6 uk-margin-remove">{$lang->uploaded_file} {$lang->file} <a>{$comment->hasUploadedFiles()}</a></strong>
+					<br><br>
+					<block loop="$comment->getUploadedFiles()=>$key,$file">
+						<block cond="$key!=0">,</block>
+						<a href="{getUrl('')}{$file->download_url}" style="text-decoration:none;">
+							<strong class="uk-link-muted">{$file->source_filename}</strong>
+							<span class="fileSize">{FileHandler::filesize($file->file_size)}</span>
+						</a>
+					</block>
+				</p>
+				<!-- //첨부 파일 -->
+			</div>
+			
+			<a cond="$oDocument->allowComment()" href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="uikit-board-cmt-btn uk-button uk-button-default registration">{$lang->cmd_comment_registration}</a>
+			<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="uikit-board-cmt-btn uk-button uk-button-default modify">{$lang->cmd_modify}</a>	
+			<!--//<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="uikit-board-cmt-btn uk-button uk-button-default delete">{$lang->cmd_delete}</a>-->
+			<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="#comment_{$comment->comment_srl}" onclick="delComment({$comment->get('comment_srl')});return false" class="uikit-board-cmt-btn uk-button uk-button-default delete">{$lang->cmd_delete}</a>
+		</div>
+	</li>
+</ul>
+
+
+<!--// 댓글 페이지네이션 시작 -->
+<ul cond="$oDocument->comment_page_navigation" class="uk-pagination uk-flex-center uk-width-1-1">
+	{@ $prev_page = max($cpage-1, 1)}
+	{@ $next_page = min($cpage+1, $oDocument->comment_page_navigation->last_page)}
+	<li><a href="{getUrl('cpage',1)}#comment"|cond="$cpage!=1"><span uk-pagination-previous></span></a></li>
+	<block cond="$oDocument->comment_page_navigation->last_page!=1">
+		<li cond="$cpage==$page_no" class="uk-active"><a>1</a></li>
+		<li cond="$cpage!=$page_no"><a href="{getUrl('cpage',$page_no)}#comment">1</a></li>
+	</block>
+	<li cond="$cpage>($module_info->page_count)/2+2" class="uk-disabled"><span>...</span></li>
+	<block loop="$page_no=$oDocument->comment_page_navigation->getNextPage()" cond="$page_no!=1 && $page_no!=$oDocument->comment_page_navigation->last_page">
+		<li cond="$cpage==$page_no" class="uk-active"><a>{$page_no}</a></li>
+		<li cond="$cpage!=$page_no"><a href="{getUrl('cpage',$page_no)}#comment">{$page_no}</a></li>
+	</block>
+	<li cond="($cpage+($module_info->page_count+1)/2<$oDocument->comment_page_navigation->last_page) && ($module_info->page_count+1<$oDocument->comment_page_navigation->last_page)" class="uk-disabled"><span>...</span></li>
+	<block cond="$oDocument->comment_page_navigation->last_page!=1">
+			<li cond="$cpage==$page_no" class="uk-active">{$oDocument->comment_page_navigation->last_page}</li>
+			<li cond="$cpage!=$page_no"><a href="{getUrl('cpage',$last_division)}#comment">{$oDocument->comment_page_navigation->last_page}</a></li>
+	</block>
+	<li><a href="{getUrl('cpage',$oDocument->comment_page_navigation->last_page)}#comment"|cond="$cpage!=$oDocument->comment_page_navigation->last_page"><span uk-pagination-next></span></a>
+</ul>
+<!--// 댓글 페이지네이션 끝 -->
+
+<!--// 댓글 작성폼 시작 -->
+<h2 class="uk-h4 tm-heading-fragment" cond="$oDocument->isEnableComment()">{$lang->write_comment}</h2>
+<p cond="!$grant->write_comment && $oDocument->isEnableComment()">
+	로그인하셔야 댓글을 쓰실 수 있습니다.
+</p>
+<form cond="$grant->write_comment && $oDocument->isEnableComment()" action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="write_comment" id="write_comment">
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="document_srl" value="{$oDocument->document_srl}" />
+	<input type="hidden" name="comment_srl" value="" />
+	<input type="hidden" name="content" value="" />
+	
+	{$oDocument->getCommentEditor()}
+	
+	<table class="uk-width-3-4@s">
+		<tr class="uk-margin-remove uk-padding-remove">
+			<td class="uk-margin-remove uk-padding-remove" cond="!$is_logged">
+				<input type="text" name="nick_name" id="userName" class="uk-input iText userName" placeholder="{$lang->writer}" />
+			</td>
+			<td class="uk-margin-remove uk-padding-remove" cond="!$is_logged">
+				<input type="password" name="password" id="userPw" class="uk-input iText userPw" placeholder="{$lang->password}" />
+			</td>
+			<td class="uk-margin-remove uk-padding-remove" cond="!$is_logged">
+				<input type="text" name="homepage" id="homePage" class="uk-input iText homePage" placeholder="{$lang->homepage}" />
+			</td>
+			<td class="uk-margin-remove uk-padding-remove" style="min-width:150px">
+				&nbsp;<label cond="$is_logged" for="notify_message">{$lang->notify}</label>
+				<input cond="$is_logged" type="checkbox" name="notify_message" value="Y" id="notify_message" class="iCheck uk-checkbox" />
+				&nbsp;<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
+				<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" class="iCheck uk-checkbox" />
+			</td>
+		</tr>
+	</table>
+	
+	<div style="float:right">
+		<button type="submit" class="uk-button uk-button-primary"><i uk-icon="icon: commenting"></i> {$lang->cmd_comment_registration}</button>
+	</div>
+</form>
+<!--// 댓글 작성폼 끝 -->
+</block>
+

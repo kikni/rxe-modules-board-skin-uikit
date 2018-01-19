@@ -1,0 +1,17 @@
+<div class="uk-width-1-2@s uk-width-1-3@l uk-width-1-4@xl">
+    <div class="uk-card uk-card-default">
+        <div class="uk-card-media-top uk-margin-remove uk-padding-remove" >
+            <include target="__list.mutimedia.html" loop="$list_config=>$key,$val" cond="$val->type=='thumbnail'" />
+        </div>
+        <div class="uk-card-body uk-padding-small uk-position-relative">
+            <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}" class="uikit-bl_cardtitle">
+                <!--// 제목 -->
+                <block loop="$list_config=>$key,$val" cond="$val->type=='title' && $val->idx==-1"><include target="__list.title.html" /></block>
+                <!--// 메타정보-->
+                <div class="uk-text-small uk-text-muted uikit-bl_userarea"><include target="__list.meta.html" /></div>
+            </a>
+            <!--//관리체크박스-->
+            <span cond="$grant->manager" class="doc_check" style="position:absolute;right:15px; bottom:15px;"><input type="checkbox" name="cart" value="{$document->document_srl}" class="iCheck uk-checkbox" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /></span>
+        </div>
+    </div>
+</div>

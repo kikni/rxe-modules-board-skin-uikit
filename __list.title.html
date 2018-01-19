@@ -1,0 +1,9 @@
+<!--@if((int)($document->getRegdate('YmdHis')>date("YmdHis", time()-$mi->duration_new*60*60)))-->
+<!--//최신글--><span class="icon_new_txt" aria-label="new" role="img"><span role="presentation">•</span></span>
+<!--@elseif( (int)(zdate($document->get('last_update'),'YmdHis')>date("YmdHis", time()-$mi->duration_new*60*60)) )-->
+<!--//수정글--><span class="icon_up_txt" aria-label="up" role="img"><span role="presentation">•</span></span><!--@end-->
+
+<!--//분류--><span cond="$document->get('category_srl')" class="uk-text uk-text-warning uikit-bl_ctg">{$category_list[$document->get('category_srl')]->title} </span>
+<!--//제목--><strong class="uk-text uikit-bl_tit">{$document->getTitle($board_title_length)}</strong>
+
+<!--//HOT--><span  cond="$mi->hot_cond == 'y' && ($document->get('voted_count') >= $hot_cond_vc || $document->get('readed_count') >= $hot_cond_rc)" class="icon_best_txt">HOT</span>

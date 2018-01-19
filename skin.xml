@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<skin version="0.2">
+    <title xml:lang="ko">UIKIT v3 게시판</title>
+    <title xml:lang="en">UIKIT v3 Board</title>
+    <version>1.0.10</version>
+    <date>2018-01-01</date>
+    <author email_address="developers@kikni.com" link="https://www.kikni.com/">
+        <name xml:lang="ko">키큰아이</name>
+        <name xml:lang="ko">KIKNI</name>
+    </author>
+    <license>MIT + KIL License</license>
+    <extra_vars>
+		<group>
+		<title xml:lang="ko">[공통] 기본</title>
+			<var name="board_loadcdn_CSS" type="radio">
+				<title xml:lang="ko">CSS 외부CDN 불러오기</title>
+				<description xml:lang="ko">기본적으로 외부 CND에서 스크립트를 로드합니다. 커스텀 또는 필요시 사용안함으로 변경하십시요.</description>
+				<options value="">
+					<title xml:lang="ko">사용함(기본값)</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">사용안함</title>
+				</options>
+			</var>
+			<var name="board_loadcdn_JS" type="radio">
+				<title xml:lang="ko">JS 외부CDN 불러오기</title>
+				<description xml:lang="ko">기본적으로 외부 CND에서 스크립트를 로드합니다. 커스텀 또는 필요시 사용안함으로 변경하십시요.</description>
+				<options value="">
+					<title xml:lang="ko">사용함(기본값)</title>
+				</options>
+				<options value="N">
+					<title xml:lang="ko">사용안함</title>
+				</options>
+			</var>
+			<var name="board_style" type="radio">
+				<title xml:lang="ko">게시판 스타일</title>
+				<description xml:lang="ko">
+                    리스트형, 카드형, 블로그형은 꼭 출력설정에서 섬네일을 추가해주세요!
+                    카드형, 블로그형은 꼭 출력설정에서 요약을 추가해주세요! (섬네일 및 내용불러오기를 위한 절차입니다.)
+                </description>
+				<options value="">
+					<title xml:lang="ko">하이브리드 (PC-테이블형, 모바일-리스트형)</title>
+				</options>
+				<options value="table">
+					<title xml:lang="ko">테이블형</title>
+				</options>
+				<options value="list">
+					<title xml:lang="ko">리스트형</title>
+				</options>
+				<options value="card">
+					<title xml:lang="ko">카드형</title>
+				</options>
+				<options value="faq">
+					<title xml:lang="ko">FAQ</title>
+				</options>
+			</var>
+        </group>
+		<group>
+		<title xml:lang="ko">[공통] 사용자화</title>
+			<var name="board_title_type" type="radio">
+				<title xml:lang="ko">상단 게시판 제목</title>
+				<description xml:lang="ko"></description>
+				<options value="">
+					<title xml:lang="ko">사용함</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용안함</title>
+				</options>
+				<options value="custom">
+					<title xml:lang="ko">커스텀 제목</title>
+				</options>
+			</var>
+			<var name="board_title_custom" type="text">
+				<title xml:lang="ko">게시판 이름</title>
+				<description xml:lang="ko">내용을 입력하시면 게시판이름을 임의로 바꿀 수 있습니다.</description>
+			</var>
+			<var name="board_desc" type="textarea">
+				<title xml:lang="ko">게시판 설명</title>
+				<description xml:lang="ko">내용을 입력하면 게시판 제목 하단에 설명글이 표시됩니다.</description>
+			</var>
+			<var name="board_category" type="radio">
+				<title xml:lang="ko">분류(카테고리)</title>
+				<description xml:lang="ko">목록등 카테고리를 노출 하고 싶으십다면 체크하십시요.</description>
+				<options value="Y">
+					<title xml:lang="ko">사용함</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용안함(기본값)</title>
+				</options>
+			</var>
+
+
+			<var name="read_postauthor_mark" type="radio">
+				<title xml:lang="ko">댓글에 게시글 작성자 표시</title>
+				<description xml:lang="ko"></description>
+				<options value="">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+			<var name="read_recomment_mark" type="radio">
+				<title xml:lang="ko">대댓글에 부모 댓글 작성자 표시</title>
+				<description xml:lang="ko"></description>
+				<options value="">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="n">
+					<title xml:lang="ko">사용 안함</title>
+				</options>
+			</var>
+        </group>
+		
+		<group>
+		<title xml:lang="ko">[공통] 크기설정</title>
+
+			<var name="board_title_length" type="text">
+				<title xml:lang="ko">제목 길이(PC)</title>
+				<description xml:lang="ko">
+					게시글 제목의 길이를 제어할 수 있습니다. (기본값:50)	
+				</description>
+			</var>
+			<var name="board_title_length_m" type="text">
+				<title xml:lang="ko">제목 길이(PC)</title>
+				<description xml:lang="ko">
+					게시글 제목의 길이를 제어할 수 있습니다. (기본값:30)	
+				</description>
+			</var>
+
+			<var name="thumbnail_type" type="radio">
+				<title xml:lang="ko">섬네일 유형</title>
+				<description xml:lang="ko">
+					게시물 섬네일
+				</description>
+				<options value="">
+					<title xml:lang="ko">자르기(기본값)</title>
+				</options>
+				<options value="ratio">
+					<title xml:lang="ko">비율유지</title>
+				</options>
+			</var>
+			<var name="thumbnail_widtht" type="text">
+				<title xml:lang="ko">섬네일 가로 크기</title>
+				<description xml:lang="ko">
+					게시물 섬네일의 세로 크기를 조정 할 수 있습니다. (기본값:80, 카드형 기본값:300)	
+				</description>
+			</var>
+			<var name="thumbnail_height" type="text">
+				<title xml:lang="ko">섬네일 세로 크기</title>
+				<description xml:lang="ko">
+					게시물 섬네일의 세로 크기를 조정 할 수 있습니다. (기본값:80, 카드형 기본값:200)
+				</description>
+			</var>
+
+			<var name="hot_cond" type="radio">
+				<title xml:lang="ko">인기 게시글 사용 여부</title>
+				<description xml:lang="ko">조건으로 설정한 추천 수나 조회 수 중 하나라도 만족하면 HOT 마크를 표시합니다.</description>
+				<options value="y">
+					<title xml:lang="ko">사용</title>
+				</options>
+				<options value="">
+					<title xml:lang="ko">사용 안함(기본값)</title>
+				</options>
+			</var>
+			<var name="hot_cond_vc" type="text">
+				<title xml:lang="ko">인기 게시글 표시 조건 1</title>
+				<description xml:lang="ko">기준 추천 수를 입력해 주세요. 기본값은 10입니다.</description>
+			</var>
+			<var name="hot_cond_rc" type="text">
+				<title xml:lang="ko">인기 게시글 표시 조건 2</title>
+				<description xml:lang="ko">기준 조회 수를 입력해 주세요. 기본값은 100입니다.</description>
+			</var>
+
+		</group>
+
+    </extra_vars>
+</skin>

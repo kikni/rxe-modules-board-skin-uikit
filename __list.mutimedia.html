@@ -1,0 +1,20 @@
+<!--//동영상썸네일 메모리 제거-->
+{@ $v_url = $v_tmp = null}
+<div class="tm-thumnail">
+    <!--//동영상썸네일 메모리 시작-->
+    <!--@if(strpos($document->getContent(),'youtube.com/embed')!==false || strpos($document->getContent(),'vimeo.com/video')!==false || strpos($document->getContent(),'kakao.com/embed')!==false || strpos($document->getContent(),'www.facebook.com/plugins/video.php') !== false)-->
+        {@preg_match("/<iframe[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i",$document->getContent(),$v_url);$v_url = $v_url[1];$v_tmp = explode('/',$v_url);$v_tmp = $v_tmp[2];}
+    <!--@elseif(strpos($document->getContent(),'naver.com/flash')!==false)-->
+        {@preg_match("/<iframe[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i",$document->getContent(),$v_url);$v_url = $v_url[1];$v_tmp = 'naver.com'};}
+    <!--@end-->
+    <iframe cond="$v_tmp == 'www.youtube.com'" src="{$v_url}" frameborder="0" allowfullscreen></iframe> 
+    <iframe cond="$v_tmp == 'player.vimeo.com'" src="{$v_url}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    <iframe cond="$v_tmp == 'tv.kakao.com'" src="{$v_url}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+    <iframe cond="$v_tmp == 'www.facebook.com'" src="{$v_url}" frameborder="0" scrolling="no" allowTransparency="true" allowFullScreen="true" style="border:none;overflow:hidden"></iframe>
+    <iframe cond="$v_tmp == 'www.facebook.com'" src="{$v_url}" frameborder="0" scrolling="no" allowfullscreen></iframe>
+    <iframe cond="$v_tmp == 'naver.com'" src='{$v_url}' frameborder="no" scrolling="no" marginwidth='0' marginheight='0' allowfullscreen></iframe>
+    <a class="uk-padding-remove uk-margin-remove" cond="!$v_tmp || $document->thumbnailExists()" href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}" >
+        <img cond="$document->getThumbnail()" src="{$document->getThumbnail($thumb_width,$thumb_height,$thumb_type)}">
+        <img cond="!$document->getThumbnail()" src="assets/profile-no.svg">
+    </a>
+</div>

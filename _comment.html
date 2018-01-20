@@ -16,96 +16,10 @@
 {@$cnt = 0}
 <h2 class="uk-h3 tm-heading-fragment">{$lang->comment} <a href="#comment">{$oDocument->getCommentcount()}</a></h2>
 <div cond="!$oDocument->getCommentcount()" id="comment" class="uk-placeholder uk-text-center">"<a class="uk-link-reset" href="{$oDocument->getPermanentUrl()}#comment">{$oDocument->getTitle()}</a>"의 첫댓글을 달아주세요!</div>
-
-<style>
-		.uikit-cmt-list{
-			width:100%;
-			padding:0;
-			margin:0;
-		}
-		.indent{
-			margin-left:0;
-			margin-top:0!important;
-			padding:20px 0;
-			border-bottom:1px solid #efefef;
-		}
-		.indent0{
-			padding-left:0;
-			width:100%;
-		}
-		.indent1{
-			padding-left:4%;
-			width:calc(100% - 4%);
-		}
-		.indent2{
-			padding-left:6%;
-			width:calc(100% - 6%);
-		}
-		.indent3{
-			padding-left:8%;
-			width:calc(100% - 8%);
-		}
-		.indent4{
-			padding-left:10%;
-			width:calc(100% - 10%);
-		}
-		.indent5,
-		.indent6,
-		.indent7,
-		.indent8,
-		.indent9,
-		.indent10{
-			padding-left:12%;
-			width:calc(100% - 12%);
-		}
-		.tm-padding-remover,
-		.tm-padding-remover li:first-child{
-			padding-left:0 !important;
-			margin-left:0 !important;
-		}
-
-		.uikit-board-cmt_metalist{
-			margin:0 0 0 !important;
-			height:0.8em;
-			line-height:0.8em;
-			padding:0 !important;
-		}
-
-		.uikit-board-cmt_metalist li{
-			margin:0;
-		}
-		.uikit-board-cmt_metalist li *{
-			font-size:0.8em !important;
-			padding:0;
-		}
-		.uikit-board-cmt_metalist li:first-child{
-			padding-left:30px;
-		}
-		.uikit-board-cmt_content{
-			margin-top:0.8em;
-			padding:0 30px 10px;
-			font-size:0.9em;
-		}
-		.uikit-board-cmt-btn {
-			float:left;
-			margin:0 2px;
-			padding:7px 5px;
-			font-size:0.8em;
-			line-height:1;
-		}
-		.uikit-board-cmt-btn.registration {
-			margin-left:30px;
-		}
-		.uk-comment .reply-icon{
-			margin-left:-18px;
-		}
-		.uk-comment .reply-icon svg{
-			width:14px;
-			height:14px;
-		}
-	</style>
-
-<ul class="uikit-cmt-list uk-list uk-text-break" cond="$oDocument->getCommentcount()">
+<ul class="uikit-cmt-list uk-list uk-text-break">
+	<li cond="$oDocument->isSecret() && !$oDocument->isGranted()" class="uk-placeholder uk-text-center">
+		해당글은 비밀글입니다.
+	</li>
 	<li loop="$oDocument->getComments()=>$key,$comment" id="comment_{$comment->comment_srl}" class="uk-comment  indent indent{$comment->get('depth')}" uk-grid>
 		<div class="uk-width-expand uk-padding-remove">
 			<i cond="$comment->get('depth')" class="reply-icon" uk-icon="icon: reply" style="transform: rotate(180deg)"></i>

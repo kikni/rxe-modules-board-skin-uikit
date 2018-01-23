@@ -23,7 +23,6 @@
 			<!--//<a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}" class="uk-text-small delete" style="float:right;margin-top:-3px" cond="$grant->manager" title="{$lang->cmd_delete}"><i uk-icon="icon: trash"></i></a>-->
 			<a href="#trackback_{$val->trackback_srl}" onclick="delTrackback({$val->trackback_srl});return false" class="uk-text-small delete" style="float:right;margin-top:-3px" cond="$grant->manager" title="{$lang->cmd_delete}"><i uk-icon="icon: trash"></i></a>
 			</br>{$val->excerpt}&nbsp;<span class="time">{zdate($val->regdate, "Y.m.d H:i")}</span>
-		</block>
 		</a>
 	</li>
 </ul>

@@ -196,7 +196,7 @@ jQuery( document ).ready(
 <!--// 하단 메뉴 끝 -->
 
 <!--// 엮인글 시작 -->
-<include target="_trackback.html" cond="$oDocument->allowTrackback()"/>
+<include target="_trackback.html" cond="$oDocument->allowTrackback() && !$oDocument->isSecret() && $oDocument->isGranted()"/>
 <!--// 엮인글 끝 -->
 
 <!--// 댓글 시작 -->

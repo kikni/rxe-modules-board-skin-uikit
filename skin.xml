@@ -2,7 +2,7 @@
 <skin version="0.2">
     <title xml:lang="ko">UIKIT v3 게시판</title>
     <title xml:lang="en">UIKIT v3 Board</title>
-    <version>1.0.14</version>
+    <version>1.0.15</version>
     <date>2018-01-24</date>
     <author email_address="developers@kikni.com" link="https://www.kikni.com/">
         <name xml:lang="ko">키큰아이</name>

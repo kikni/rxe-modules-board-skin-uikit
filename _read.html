@@ -196,9 +196,9 @@ jQuery( document ).ready(
 <!--// 하단 메뉴 끝 -->
 
 <!--// 엮인글 시작 -->
-<include target="_trackback.html" cond="$oDocument->allowTrackback()=='Y' && !$oDocument->isSecret() && !$oDocument->isGranted()"/>
+<include target="_trackback.html" cond="$oDocument->allowTrackback()=='Y' && !$oDocument->isSecret()"/>
 <!--// 엮인글 끝 -->
 
 <!--// 댓글 시작 -->
-<include target="_comment.html"  cond="!$oDocument->isSecret() && !$oDocument->isSecret() && !$oDocument->isGranted()"/>
+<include target="_comment.html"  cond="!$oDocument->isSecret() && !$oDocument->isSecret()"/>
 <!--// 댓글 끝 -->

@@ -1,0 +1,58 @@
+<!--@if((int)($document->getRegdate('YmdHis')>date("YmdHis", time()-$mi->duration_new*60*60)))-->
+<!--//최신글--><span class="icon_new_txt" aria-label="new" role="img"><span role="presentation">•</span></span>
+<!--@elseif( (int)(zdate($document->get('last_update'),'YmdHis')>date("YmdHis", time()-$mi->duration_new*60*60)) )-->
+<!--//수정글--><span class="icon_up_txt" aria-label="up" role="img"><span role="presentation">•</span></span>
+<!--@end-->
+
+<!--//도큐먼트권한애드온대응-->
+{@
+    $args->document_srl = $document->document_srl;
+    $tmp_output = executeQuery('addons.appoint_view_user.getDocumentExtra', $args);
+    $tmp_output = explode(':"' , $tmp_output->data->extra_vars);
+    $tmp_output = explode('";' , $tmp_output[3]);
+    $tmp_output = explode(',' , $tmp_output[0]);
+}
+<span class="uk-label uk-label-danger" style="font-size:11px;padding:2px 5px;margin-top:-3px;margin-right:3px;" loop="$tmp_output => $val" cond="$val" >{$val}</span>
+
+<!--//공지사항-->
+<!--@if($document->get('is_notice') == 'Y')-->
+<span class="uk-text uk-text-danger uikit-bl_ctg">{$lang->notice} </span><!--//공지-->
+<!--@else-->
+<span cond="$document->get('category_srl')" class="uk-text uk-text-warning uikit-bl_ctg">{$category_list[$document->get('category_srl')]->title} </span><!--//분류-->
+<!--@end-->
+
+<!--//제목-->
+<strong class="uk-text uikit-bl_tit">{$document->getTitle($board_title_length)}</strong>
+
+<!--//첨부파일추출-->
+{@ 
+    $f_img = $f_pdf = $f_zip = $f_mp3 = $f_doc = $f_xls = $f_ppt = $f_txt = $f_cod = $f_mov = $f_etc = $f_play = 0;
+    if(preg_match("/<img[^>]*src=[\"']?([^>\"']+)[\"']?[^>]*>/i", $document->getContent()))
+    $f_img = 1;
+
+    if( strpos($document->getContent(),'youtube.com/embed')!==false || strpos($document->getContent(),'vimeo.com/video')!==false || strpos($document->getContent(),'kakao.com/embed')!==false || strpos($document->getContent(),'naver.com/flash')!==false || strpos($document->getContent(),'https://youtu.be/')!==false || strpos($document->getContent(),'https://www.youtube.com/watch?v=')!==false ) $f_play = 1;
+}
+<block loop="$document->getUploadedFiles()=>$key,$file">
+{@ 
+    $filetmp = strtolower(substr(strrchr($file->source_filename,'.'),1));
+
+    if( ($filetmp == 'jpg' || $filetmp == 'gif' || $filetmp == 'png' || $filetmp == 'svg' || $filetmp == 'jpeg' || $filetmp == 'bmp') && !$f_img ) $f_img = 1;
+    elseif( $filetmp == 'pdf' && !$f_pdf ) $f_pdf = 1;
+    elseif( ($filetmp == 'zip' || $filetmp == 'rar' || $filetmp == '7z' || $filetmp == 'tar' || $filetmp == 'gz' || $filetmp == 'alz' || $filetmp == 'egg') && !$f_zip ) $f_zip = 1;
+    elseif( ($filetmp == 'wav' || $filetmp == 'mp3' || $filetmp == 'm4a' || $filetmp == 'flac' || $filetmp == 'ogg' || $filetmp == 'wma') && !$f_mp3 ) $f_mp3 = 1;
+    elseif( ($filetmp == 'doc' || $filetmp == 'docx' || $filetmp == 'odt' || $filetmp == 'hwp' || $filetmp == 'pages') && !$f_doc ) $f_doc = 1;
+    elseif( ($filetmp == 'xls' || $filetmp == 'xlsx' || $filetmp == 'ods' || $filetmp == 'numbers' || $filetmp == 'cell') && !$f_xls ) $f_xls = 1;
+    elseif( ($filetmp == 'ppt' || $filetmp == 'pptx' || $filetmp == 'odp' || $filetmp == 'keynote' || $filetmp == 'show') && !$f_ppt ) $f_ppt = 1;
+    elseif( ($filetmp == 'txt' || $filetmp == 'rtf') && !$f_txt ) $f_txt = 1;
+    elseif( ($filetmp == 'c' || $filetmp == 'cpp' || $filetmp == 'css' || $filetmp == 'scss' || $filetmp == 'js' || $filetmp == 'php' || $filetmp == 'html' || $filetmp == 'html' || $filetmp == 'java') && !$f_cod ) $f_cod = 1;
+    elseif( ($filetmp == 'mp4' || $filetmp == 'avi' || $filetmp == '3gp' || $filetmp == 'mov' || $filetmp == 'wmv' || $filetmp == 'mkv') && !$f_mov ) $f_mov = 1;
+    else if (!$f_etc) $f_etc = 1;
+}
+</block>
+<i class="uk-text-muted fa fa-play-circle"  cond="$f_play"></i> <i class="uk-text-muted fa fa-file-image-o" cond="$f_img"></i> <i class="uk-text-muted fa fa-file-archive-o" cond="$f_zip"></i> <i class="uk-text-muted fa fa-file-text-o" cond="$f_txt"></i> <i class="uk-text-muted fa fa-file-word-o" cond="$f_doc"></i> <i class="uk-text-muted fa fa-file-excel-o" cond="$f_xls"></i> <i class="uk-text-muted fa fa-file-powerpoint-o" cond="$f_ppt"></i> <i class="uk-text-muted fa fa-file-pdf-o" cond="$f_pdf"></i> <i class="uk-text-muted fa fa-file-code-o" cond="$f_cod"></i> <i class="uk-text-muted fa fa-file-audio-o" cond="$f_wav"></i> <i class="uk-text-muted fa fa-file-video-o" cond="$f_mov"></i><i class="uk-text-muted fa fa-file-o" cond="$f_etc"></i> 
+
+<!--//공개여부-->
+<i cond="in_array('secret',$document->getExtraImages())" class="uk-text-muted fa fa-lock"></i>
+
+<!--//HOT-->
+<span  cond="$mi->hot_cond == 'y' && ($document->get('voted_count') >= $hot_cond_vc || $document->get('readed_count') >= $hot_cond_rc)" class="icon_best_txt">HOT</span> 

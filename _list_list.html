@@ -1,0 +1,46 @@
+<!--@if($mi->board_overflow=='Y')-->
+<!--//오버플로우 셋팅 설정-->
+<div id="board_list" class=" uk-listboard_list uk-overflow-auto uk-text-break" >
+<!--@else-->
+<!--//오버플로우 셋팅 취소-->
+<div id="board_list" class="uk-list board_list uk-text-break" >
+<!--@end-->
+        <ul class="uk-list uikit-bl uk-padding-remove">
+            <li class="uikit-bl_box" style="line-height:2em">
+                <span cond="$grant->manager" class="doc_check"><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" class="iCheck uk-checkbox" title="Check All" /> </span>
+                <a class="uk-link-muted" herf>{$lang->cmd_list}</a>
+                <!--//게시판 간편메뉴 시작-->
+                <block>
+                    <span class="setup-toggle uk-align-right uk-margin-remove-vertical uk-margin-small-right uk-text" uk-toggle="target: #sort-toggle"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+                    <ul id="sort-toggle" class="setup-toggle uk-list uk-list-divider uk-card uk-card-default uk-card-body uk-padding-remove uk-link-muted" hidden>
+                        <li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}</a></li>
+                        <li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index','update_order','order_type',$order_type)}">{$lang->last_update}</a></li>
+                        <li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index','update_order','order_type',$order_type)}">{$lang->last_post}</a></li>
+                        <li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}</a></li>
+                        <li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}</a></li>
+                        <li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index','blamed_count','order_type',$order_type)}">{$lang->blamed_count}</a></li>
+                        <!--//<li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index', $val->eid, 'order_type', $order_type)}">{$val->name}</a></li>-->
+                    </ul>
+                </block>
+                <!--//게시판 간편메뉴 끝-->
+            </li>
+        </ul>
+
+        <ul class="uk-list uikit-bl uk-padding-remove">
+            <include loop="$notice_list=>$no,$document" target="__list.list.html"/>
+        </ul>
+
+        <ul class="uk-list uikit-bl uk-padding-remove">
+            <include loop="$document_list=>$no,$document" target="__list.list.html"/>
+        </ul>
+
+        <li style="border-bottom:1px solid #e5e5e5;height:60px;line-height:40px;text-align:center"  cond="!$document_list || (!$document_list && $notice_list)">
+            <strong class="title uk-h5">게시물이 존재하지 않습니다.</strong>
+        </li>
+<!--@if($mi->board_overflow=='Y')-->
+<!--//오버플로우 셋팅 설정-->
+</div>
+<!--@else-->
+<!--//오버플로우 셋팅 취소-->
+</div>
+<!--@end-->

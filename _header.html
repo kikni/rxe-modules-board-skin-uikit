@@ -1,0 +1,96 @@
+{@
+	//모듈정보복사
+	$mi=$module_info;
+
+	//추천수
+		if($mi->hot_cond_vc) $hot_cond_vc = $mi->hot_cond_vc;
+		else $hot_cond_vc = 10;
+	
+	//조회수
+		if($mi->hot_cond_rc) $hot_cond_rc = $mi->hot_cond_rc;
+		else $hot_cond_rc = 100;
+
+	//목록(PC)제목길이제한
+		if($mi->board_title_length_p) $board_title_length_p = $mi->board_title_length_p;
+		else $board_title_length_p = 50;
+	//목록(Mobile)제목길이제한
+		if($mi->board_title_length_m) $board_title_length_m = $mi->board_title_length_m;
+		else $board_title_length_m = 25;
+	//목록제목길이제한 (모바일구분)
+		if (Mobile::isMobileCheckByAgent()) $board_title_length = $board_title_length_m;
+		else $board_title_length = $board_title_length_p;
+	
+	//날짜길이제한 (모바일구분)
+		if (Mobile::isMobileCheckByAgent()) $board_date_type = "y.m.d"; //날짜표시
+		else $board_date_type = "y.m.d h:i"; //날짜표시
+
+	//섬네일 유형(기본값)
+		if($mi->thumbnail_type) $thumb_type = $mi->thumbnail_type;
+		else $thumb_type = crop; // 그외 자르기
+	//섬네일 가로크기(기본값)
+		if($mi->thumbnail_width) :
+			$thumb_width = $mi->thumbnail_width;
+		else :
+			//섬네일 가로크기(레이아웃구분)
+			if($mi->board_style == 'card' ) : $thumb_width = 400; //카드형이면 가로 400 16:9
+			else : $thumb_width = 100; // 그외 100
+			endif;
+		endif;
+
+	//섬네일 세로크기(기본값)
+		if($mi->thumbnail_height) :
+			$thumb_height = $mi->thumbnail_width;
+		else :
+			//섬네일 가로크기(레이아웃구분)
+			if($mi->board_style == 'card' ) : $thumb_height = 255; //카드형이면 세로 225 16:9
+			else : $thumb_height = 100; // 그외 100
+			endif;
+		endif;
+
+	//언어 강제변경(한글전용)
+	$lang->cmd_document_vote_user = "공감";
+	$lang->update_log = "기록";
+	$lang->readed_count = "조회";
+	$lang->voted_count = "추천";
+	$lang->blamed_count = "비추천";
+	$lang->image = "비추천";
+}
+
+<!--// UIkit Load -->
+<load rel="stylesheet" target="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.36/css/uikit.min.css" cond="$mi->board_loadcdn_CSS!='N'"/>
+<load target="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.36/js/uikit.min.js" cond="$mi->board_loadcdn_JS!='N'"/>
+<load target="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.36/js/uikit-icons.min.js" cond="$mi->board_loadcdn_JS!='N'"/>
+
+<!--// Font Awesome -->
+<load target="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" cond="$mi->board_loadcdn_CSS!='N'"/>
+
+<!--// Board Load-->
+<load target="assets/uikit.board.css" index="1000" />
+<load target="assets/uikit.board.js" type="body" />
+
+<style>
+</style>
+<!--@if($order_type == "desc")-->
+    {@ $order_type = "asc"; }
+<!--@else-->
+    {@ $order_type = "desc"; }
+<!--@end-->
+<block cond="!$mi->duration_new = (int)$mi->duration_new">{@ $mi->duration_new = 12 }</block>
+{@ $cate_list = array(); $current_key = null; }
+<!--@foreach($category_list as $key=>$val)-->
+	<!--@if(!$val->depth)-->
+		{@
+			$cate_list[$key] = $val;
+			$cate_list[$key]->children = array();
+			$current_key = $key;
+		}
+	<!--@elseif($current_key)-->
+		{@ $cate_list[$current_key]->children[] = $val }
+	<!--@end-->
+<!--@end-->
+<div class="uikit-board uk-position-relative">
+	<!--@if($m && $mi->mobile_header_text)-->
+		{$mi->mobile_header_text}
+	<!--@else-->
+		{$mi->header_text}
+	<!--@end-->

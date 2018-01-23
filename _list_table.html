@@ -1,0 +1,109 @@
+	<table class="uk-table-custom uk-table uk-table-small uk-table-striped uikit-board-table" width="100%" border="0" cellspacing="0" summary="List of Articles">
+		<thead>
+			<!-- LIST HEADER -->
+			<tr>
+				<block loop="$list_config=>$key,$val">
+				<th scope="col" cond="$val->type=='no' && $val->idx==-1" class="uk-visible@s"><span>{$lang->no}</span></th>
+				<th scope="col" cond="$val->type=='title' && $val->idx==-1" class="title"><span>{$lang->title}</span></th>
+				<th scope="col" cond="$val->type=='nick_name' && $val->idx==-1"><span>{$lang->writer}</span></th>
+				<th scope="col" cond="$val->type=='user_id' && $val->idx==-1"><span>{$lang->user_id}</span></th>
+				<th scope="col" cond="$val->type=='user_name' && $val->idx==-1"><span>{$lang->user_name}</span></th>
+				<th scope="col" cond="$val->type=='regdate' && $val->idx==-1" class="uk-visible@s"><span><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}</a></span></th>
+				<th scope="col" cond="$val->type=='last_update' && $val->idx==-1" class="uk-visible@s"><span><a href="{getUrl('sort_index','update_order','order_type',$order_type)}">{$lang->last_update}</a></span></th>
+				<th scope="col" cond="$val->type=='last_post' && $val->idx==-1" class="uk-visible@s"><span><a href="{getUrl('sort_index','update_order','order_type',$order_type)}">{$lang->last_post}</a></span></th>
+				<th scope="col" cond="$val->type=='readed_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','readed_count','order_type',$order_type)}">{$lang->readed_count}</a></span></th>
+				<th scope="col" cond="$val->type=='voted_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','voted_count','order_type',$order_type)}">{$lang->voted_count}</a></span></th>
+				<th scope="col" cond="$val->type=='blamed_count' && $val->idx==-1"><span><a href="{getUrl('sort_index','blamed_count','order_type',$order_type)}">{$lang->blamed_count}</a></span></th>
+				<th scope="col" cond="$val->idx>0"><span><a href="{getUrl('sort_index', $val->eid, 'order_type', $order_type)}">{$val->name}</a></span></th>
+				</block>
+				<th scope="col" cond="$grant->manager" class="doc_check"><span><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" class="iCheck uk-checkbox" title="Check All" /></span></th>
+			</tr>
+			<!-- /LIST HEADER -->
+		</thead>
+
+
+		<tbody cond="$document_list || $notice_list">
+			<!-- NOTICE -->
+			<tr loop="$notice_list=>$no,$document" class="notice <!--@if($document_srl==$document->document_srl)-->uk-active<!--@end-->">
+				<block loop="$list_config=>$key,$val">
+				<td class="notice uk-visible@s" cond="$val->type=='no' && $val->idx==-1">
+					<block cond="$document_srl==$document->document_srl">&raquo;</block>
+					<block cond="$document_srl!=$document->document_srl">{$lang->notice}</block>
+				</td>
+				<td class="title" cond="$val->type=='title' && $val->idx==-1">
+					<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">
+						<include target="__list.title.html" />
+					</a>
+				</td>
+				<td class="author uk-link-muted" cond="$val->type=='nick_name' && $val->idx==-1"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td>
+				<td class="author uk-link-muted" cond="$val->type=='user_id' && $val->idx==-1">{$document->getUserID()}</td>
+				<td class="author uk-link-muted" cond="$val->type=='user_name' && $val->idx==-1">{$document->getUserName()}</td>
+				<td class="time uk-visible@s" cond="$val->type=='regdate' && $val->idx==-1">{getTimeGap($document->get('regdate'), "Y.m.d")}</td>
+				<td class="time uk-visible@s" cond="$val->type=='last_update' && $val->idx==-1">{getTimeGap($document->get('last_update'),'Y.m.d')}</td>
+				<td class="lastReply uk-visible@s" cond="$val->type=='last_post' && $val->idx==-1">
+					<block cond="(int)($document->get('comment_count'))>0">
+						<a href="{$document->getPermanentUrl()}#comment" title="Last Reply">
+							{getTimeGap($document->get('last_update'),'Y.m.d')}
+						</a>
+						<span cond="$document->getLastUpdater()">
+							<sub>by</sub>
+							{$document->getLastUpdater()}
+						</span>
+					</block>
+					<block cond="(int)($document->get('comment_count'))==0">&nbsp;</block>
+				</td>
+				<td class="readNum" cond="$val->type=='readed_count' && $val->idx==-1">{$document->get('readed_count')>0?$document->get('readed_count'):'0'}</td>
+				<td class="voteNum" cond="$val->type=='voted_count' && $val->idx==-1">{$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</td>
+				<td class="voteNum" cond="$val->type=='blamed_count' && $val->idx==-1">{$document->get('blamed_count')!=0?$document->get('blamed_count'):'0'}</td>
+				<td class="extra{$val->idx}" cond="$val->idx>0">{$document->getExtraValueHTML($val->idx)}&nbsp;</td>
+				</block>
+				<td cond="$grant->manager" class="doc_check"><input type="checkbox" name="cart" value="{$document->document_srl}" class="iCheck uk-checkbox" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /></td>
+			</tr>
+			<!-- /NOTICE -->
+			<!-- LIST -->
+			<tr loop="$document_list=>$no,$document" class="<!--@if($document_srl==$document->document_srl)-->uk-active<!--@end-->">
+				<block loop="$list_config=>$key,$val">
+					<td class="no uk-visible@s" cond="$val->type=='no' && $val->idx==-1">
+						<block cond="$document_srl==$document->document_srl">&raquo;</block>
+						<block cond="$document_srl!=$document->document_srl">{$no}</block>
+					</td>					
+					<td class="title" cond="$val->type=='title' && $val->idx==-1">
+						<a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}">
+							<include target="__list.title.html" />
+						</a>
+					</td>
+					<td class="author uk-link-muted" cond="$val->type=='nick_name' && $val->idx==-1"><a href="#popup_menu_area" class="member_{$document->get('member_srl')}" onclick="return false">{$document->getNickName()}</a></td>
+					<td class="author uk-link-muted" cond="$val->type=='user_id' && $val->idx==-1">{$document->getUserID()}</td>
+					<td class="author uk-link-muted" cond="$val->type=='user_name' && $val->idx==-1">{$document->getUserName()}</td>
+					<td class="time uk-visible@s" cond="$val->type=='regdate' && $val->idx==-1">{getTimeGap($document->get('regdate'), "Y.m.d")}</td>
+					<td class="time uk-visible@s" cond="$val->type=='last_update' && $val->idx==-1">{getTimeGap($document->get('last_update'),'Y.m.d')}</td>
+					<td class="lastReply uk-visible@s" cond="$val->type=='last_post' && $val->idx==-1">
+						<block cond="(int)($document->get('comment_count'))>0">
+							<a href="{$document->getPermanentUrl()}#comment" title="Last Reply">
+								{getTimeGap($document->get('last_update'),'Y.m.d')}
+							</a>
+							<span cond="$document->getLastUpdater()">
+								<sub>by</sub>
+								{$document->getLastUpdater()}
+							</span>
+						</block>
+						<block cond="(int)($document->get('comment_count'))==0">&nbsp;</block>
+					</td>
+					<td class="readNum" cond="$val->type=='readed_count' && $val->idx==-1">{$document->get('readed_count')>0?$document->get('readed_count'):'0'}</td>
+					<td class="voteNum" cond="$val->type=='voted_count' && $val->idx==-1">{$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</td>
+					<td class="voteNum" cond="$val->type=='blamed_count' && $val->idx==-1">{$document->get('blamed_count')!=0?$document->get('blamed_count'):'0'}</td>
+					<td class="extra{$val->idx}" cond="$val->idx>0">{$document->getExtraValueHTML($val->idx)}&nbsp;</td>
+				</block>
+				<td cond="$grant->manager" class="doc_check"><input type="checkbox" name="cart" value="{$document->document_srl}" class="iCheck uk-checkbox" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /></td>
+			</tr>
+			<!-- /LIST -->
+		</tbody>
+
+		<tbody cond="!$document_list || (!$document_list && !$notice_list)">
+			<tr class="no_article">
+				<td colspan="{count($list_config)}"|cond="!$grant->manager" colspan="{count($list_config)+1}"|cond="$grant->manager">
+					<p style="text-align:center"><block cond="$search_keyword">{$lang->search_result} </block>{$lang->no_documents}</p>
+				</td>
+			</tr>
+		</tbody>
+    </table>

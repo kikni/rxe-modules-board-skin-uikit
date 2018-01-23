@@ -1,0 +1,38 @@
+<include target="_header.html" />
+<!--// 댓글 작성폼 시작 -->
+<h2 class="uk-h4 tm-heading-fragment">{$lang->write_comment}</h2>
+
+<form action="./" method="post" onsubmit="return procFilter(this, insert_comment)" class="write_comment" class="write_comment">
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="document_srl" value="{$oComment->get('document_srl')}" />
+	<input type="hidden" name="comment_srl" value="{$oComment->get('comment_srl')}" />
+	<input type="hidden" name="parent_srl" value="{$oComment->get('parent_srl')}" />
+	<input type="hidden" name="content" value="{htmlspecialchars($oComment->get('content'))}" />
+	{$oComment->getEditor()}
+	
+	<table class="uk-width-3-4@s">
+		<tr class="uk-margin-remove uk-padding-remove">
+			<td class="uk-margin-remove uk-padding-remove" cond="!$is_logged">
+				<input type="text" name="nick_name" id="userName" class="uk-input iText userName" placeholder="{$lang->writer}" />
+			</td>
+			<td class="uk-margin-remove uk-padding-remove" cond="!$is_logged">
+				<input type="password" name="password" id="userPw" class="uk-input iText userPw" placeholder="{$lang->password}" />
+			</td>
+			<td class="uk-margin-remove uk-padding-remove" cond="!$is_logged">
+				<input type="text" name="homepage" id="homePage" class="uk-input iText homePage" placeholder="{$lang->homepage}" />
+			</td>
+			<td class="uk-margin-remove uk-padding-remove" style="min-width:150px">
+				&nbsp;<label cond="$is_logged" for="notify_message">{$lang->notify}</label>
+				<input cond="$is_logged" type="checkbox" name="notify_message" value="Y" id="notify_message" class="iCheck uk-checkbox" />
+				&nbsp;<label cond="$module_info->secret=='Y'" for="is_secret">{$lang->secret}</label>
+				<input cond="$module_info->secret=='Y'" type="checkbox" name="is_secret" value="Y" id="is_secret" class="iCheck uk-checkbox" />
+			</td>
+		</tr>
+	</table>
+	
+	<div style="float:right">
+		<button type="submit" class="uk-button uk-button-primary"><i class="fa fa-commenting" aria-hidden="true"></i> {$lang->cmd_comment_registration}</button>
+	</div>
+</form>
+<!--// 댓글 작성폼 끝 -->
+<include target="_footer.html" />

@@ -1,0 +1,28 @@
+<script>
+	function delTrackback(trb_srl){
+		var msg = window.confirm('정말로 트랙백을 삭제합니까?');
+		if(msg){
+			var params = new Array();
+			params["trackback_srl"] = trb_srl;
+			exec_xml("board","procBoardDeleteTrackback", params, function(){
+				location.reload()
+			})
+		}else{
+			alert(msg);
+		}
+	};
+</script>
+<h2 class="uk-h3 tm-heading-fragment">{$lang->trackback} <span class="uk-link">{$oDocument->getTrackbackCount()}</span></h2>
+<p class="trackbackURL uk-text-break" ><a href="{$oDocument->getTrackbackUrl()}" onclick="return false;">{$oDocument->getTrackbackUrl()}</a></p>
+
+<ul class="uk-list uk-list-hover uk-list-divider uk-text-small" cond="$oDocument->getTrackbackCount()">
+	<li class="uk-padding-small" loop="$oDocument->getTrackbacks()=>$key,$val" id="trackback_{$val->trackback_srl}">
+		<a href="{$val->url}" class="txt_area uk-link-text" style="text-decoration:none;">
+			<!--// 제목 -->
+			<strong title="{htmlspecialchars($val->blog_name)}">{htmlspecialchars($val->blog_name)}</strong> - {htmlspecialchars($val->title)}
+			<!--//<a href="{getUrl('act','dispBoardDeleteTrackback','trackback_srl',$val->trackback_srl)}" class="uk-text-small delete" style="float:right;margin-top:-3px" cond="$grant->manager" title="{$lang->cmd_delete}"><i uk-icon="icon: trash"></i></a>-->
+			<a href="#trackback_{$val->trackback_srl}" onclick="delTrackback({$val->trackback_srl});return false" class="uk-text-small delete" style="float:right;margin-top:-3px" cond="$grant->manager" title="{$lang->cmd_delete}"><i uk-icon="icon: trash"></i></a>
+			</br>{$val->excerpt}&nbsp;<span class="time">{zdate($val->regdate, "Y.m.d H:i")}</span>
+		</a>
+	</li>
+</ul>

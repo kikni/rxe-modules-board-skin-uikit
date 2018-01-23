@@ -1,0 +1,28 @@
+    <!--정렬 번호-->
+    <span cond="false" class="no document">
+        <block cond="$document_srl==$document->document_srl">&raquo;</block>
+        <block cond="$document_srl!=$document->document_srl">{$no}</block>
+    </span>
+
+    <!--회원 아이디-->
+    <span cond="false" class="nick member_{$document->get('member_srl')}">{$document->getUserID(15)}</span>
+    <!--회원 이름-->
+    <span cond="false" class="nick member_{$document->get('member_srl')}">{$document->getUserName(15)}</span>
+    <!--회원 닉네임-->
+    <span class="nick member_{$document->get('member_srl')}">{$document->getNickName(15)}</span>
+    
+    <!--// 등록일 -->
+    <span class="time regdate"><i class="fa fa-pencil" aria-hidden="true"></i> {getTimeGap($document->get('regdate'), $board_date_type)}</span>
+
+    <!--// 마지막 업데이트 -->
+    <span cond="false" class="time update"><i class="fa fa-wrench" aria-hidden="true"></i> {getTimeGap($document->get('last_update'), $board_date_type)}</span>
+
+    <!--// 조회수 -->
+    <span cond="false" class="no readed"><i class="fa fa-eye" aria-hidden="true"></i> {$document->get('readed_count')>0?$document->get('readed_count'):'0'}</span>
+
+    <!--// 추천수 -->
+    <span cond="false" class="no voted"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</span>
+    <span cond="false" class="no blamed"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {$document->get('blamed_count')!=0?$document->get('blamed_count'):'0'}</span>
+
+    <!--// 댓글 -->
+    <span cond="false" class="no comment"><i class="fa fa-comments-o" aria-hidden="true"></i> {$document->get('comment_count')!=0?$document->get('comment_count'):'0'}</span>

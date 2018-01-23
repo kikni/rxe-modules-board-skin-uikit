@@ -1,0 +1,142 @@
+<!--// 헤더 가져오기 -->
+<include target="_header.html" />
+<form action="./" method="post" onsubmit="return procFilter(this, window.insert)" class="uk-form uk-form-horizontal">
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="content" value="{$oDocument->getContentText()}" />
+	<input type="hidden" name="document_srl" value="{$document_srl}" />
+
+    <fieldset class="uk-fieldset">
+		<legend class="uk-legend">게시글 작성</legend>
+		<span style="font-size:0.8em;float:right;position:absolute;right:5px;top:10px;"><em>*</em> {$lang->is_required}</span>
+        <div class="uk-margin" cond="$module_info->use_category=='Y'">
+			<label class="uk-form-label" for="category">{$lang->category}<em>*</em></label>
+			<div class="uk-form-controls">				
+				<select name="category_srl" class="uk-select">
+					<option value="">{$lang->category}</option>
+					<option loop="$category_list => $val" disabled="disabled"|cond="!$val->grant" value="{$val->category_srl}" selected="selected"|cond="$val->grant&&$val->selected||$val->category_srl==$oDocument->get('category_srl')">
+						{str_repeat("&nbsp;&nbsp;",$val->depth)} {$val->title} ({$val->document_count})
+					</option>
+				</select>
+			</div>
+        </div>
+
+        <div class="uk-margin">
+			<label class="uk-form-label" for="title">{$lang->title}<em>*</em></label>
+			<div class="uk-form-controls">				
+				<input class="uk-input" type="text" id="title" name="title" title="{$lang->title}" value="{htmlspecialchars($oDocument->getTitleText())}" placeholder="제목을 입력해 주세요" />
+			</div>
+		</div>
+
+        <div class="uk-margin uikit-extra" cond="count($extra_keys)" loop="$extra_keys=>$key,$val">
+			<label class="uk-form-label" for="title">{$val->name}<em cond="$val->is_required=='Y'">*</em> </label>
+			<div class="uk-form-controls">				
+				{$val->getFormHTML()}
+			</div>
+		</div>
+
+		<div class="uk-margin">
+			{$oDocument->getEditor()}
+		</div>
+
+        <div class="uk-margin">
+			<label class="uk-form-label" for="tags">{$lang->tag}</label>
+			<div class="uk-form-controls">
+				<input type="text" name="tags" id="tags" value="{htmlspecialchars($oDocument->get('tags'))}" class="uk-input write-tool-tags" title="Tag" placeholder="{$lang->about_tag}" />
+			</div>
+		</div>
+
+        <div class="uk-margin uikit-extra">
+			<label class="uk-form-label">부가 설정</label>
+			<div class="uk-form-controls">
+				<span style="display: inline-block;" cond="$grant->manager">
+					<input type="checkbox" name="is_notice" value="Y" class="uk-checkbox" checked="checked"|cond="$oDocument->isNotice()" id="is_notice" />
+					<label for="is_notice" class="uk-text-small">{$lang->notice}</label>
+				</span>	
+				<span style="display: inline-block;" cond="$is_logged">
+					<input type="checkbox" name="notify_message" class="uk-checkbox" value="Y" checked="checked"|cond="$oDocument->useNotify()" id="notify_message" />
+					<label for="notify_message" class="uk-text-small">{$lang->notify}</label>
+				</span>		
+
+				<span style="display: inline-block;"  cond="$grant->manager">
+					<input type="checkbox" name="title_bold" id="title_bold" class="uk-checkbox" value="Y" checked="checked"|cond="$oDocument->get('title_bold')=='Y'" />
+					<label for="title_bold" class="uk-text-small">{$lang->title_bold}</label>
+				</span>
+				<span style="display: inline-block;">
+					<input type="checkbox" name="comment_status" class="uk-checkbox" value="ALLOW" checked="checked"|cond="$oDocument->allowComment()" id="comment_status" />
+					<label for="comment_status" class="uk-text-small">{$lang->allow_comment}</label>
+				</span>
+				<span style="display: inline-block;">
+					<input type="checkbox" name="allow_trackback" class="uk-checkbox" value="Y" checked="checked"|cond="$oDocument->allowTrackback()" id="allow_trackback" />
+					<label for="allow_trackback" class="uk-text-small">{$lang->allow_trackback}</label>
+				</span>
+			</div>
+		</div>
+		
+        <div class="uk-margin uikit-extra">
+			<label class="uk-form-label">게시물 보호</label>
+			<div class="uk-form-controls">
+				<!--@if(is_array($status_list))--><!--@foreach($status_list AS $key=>$value)-->
+				<span style="display: inline-block;">
+					<input class="uk-radio" type="radio" name="status" value="{$key}" id="{$key}" <!--@if($oDocument->get('status') == $key || ($key == 'PUBLIC' && !$document_srl))-->checked="checked"<!--@end--> /> 
+					<label for="{$key}" class="uk-text-small">{$value}</label>
+				</span>
+				<!--@end--><!--@end-->
+			</div>
+		</div>
+
+        <div class="uk-margin" cond="$oDocument->get('document_srl') && $module_info->update_log == 'Y'">
+			<label class="uk-form-label" for="reason_update">{$lang->reason_update}</label>
+			<div class="uk-form-controls">
+				<input type="text" name="reason_update" id="reason_update" value="" class="uk-input" title="{$lang->reason_update}" placeholder="{$lang->reason_update}를 입력해주세요." />
+			</div>
+		</div>
+
+        <div class="uk-margin" uk-grid  cond="!$is_logged">
+			<span class="uk-width-1-2">
+				<label class="uk-form-label" for="userName">{$lang->user_name}</label>
+				<input type="text" name="nick_name" id="userName" class="uk-input userName"  value="{htmlspecialchars($oDocument->get('nick_name'))}" placeholder="비회원 {$lang->user_name}" />
+			</span>
+			<span class="uk-width-1-2">
+				<label class="uk-form-label" for="userPw">{$lang->password}</label>
+				<input type="password" name="password" id="userPw" class="uk-input userPw" placeholder="게시글 {$lang->password}" />
+			</span>
+		</div>
+
+		<div class="uk-margin write_captcha" cond="$captcha">
+			{$captcha}
+		</div>
+
+		<div class="uk-margin">
+			<block cond="!$oDocument->isExists() || $oDocument->get('status') == 'TEMP'">
+				<button cond="$is_logged" class="uk-button uk-button-default fl write-tool-tsl" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
+				<button cond="$is_logged" class="uk-button uk-button-default fl write-tool-tsl" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
+			</block>
+			<button id="cmd_reg" type="submit" class="uk-align-right uk-button uk-button-primary fr">{$lang->cmd_registration}</button>
+		</div>
+    </fieldset>
+</form>
+
+<load target="assets/jscolor.css" />
+<include target="_footer.html" />
+
+<!-- 게시판글쓰기 UIKIT 적용을위한 코드 -->
+<script>
+(function($) {
+	$(".uikit-extra input.text, .uikit-extra input.password, .uikit-extra input.email_address, .uikit-extra input.homepage, .uikit-extra input.tel, .uikit-extra input.date, .uikit-extra .krZip input").addClass('uk-input');
+	
+	$(".uikit-extra input.tel").addClass('uk-width-1-3');
+	$(".uikit-extra input.date").addClass('uikit-extradate');
+
+	$(".uikit-extra select").addClass('uk-select');
+	$(".uikit-extra textarea, .rx_editor_wrapper textarea").addClass('uk-textarea');
+
+	$(".uikit-extra input[type=radio]").addClass('uk-radio');
+	$(".uikit-extra input[type=checkbox]").addClass('uk-checkbox');
+	
+	$(".uikit-extra .krZip input").addClass('uk-width-1-4@s');
+	$(".uikit-extra .krZip input").removeClass('krzip-postcode krzip-roadAddress krzip-jibunAddress krzip-extraAddress krzip-detailAddress');
+	
+	$(".uikit-extra input.btn").addClass('uk-button uk-button-default');
+	$(".uikit-extra input.btn").removeClass('btn');
+})(jQuery);
+</script>

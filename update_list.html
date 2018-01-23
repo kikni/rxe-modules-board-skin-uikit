@@ -11,7 +11,7 @@
 	<a href="#board_{$mid}">
 		<font style="vertical-align: inherit;">
 		<!--//분류--><a href="{getUrl('category',$oDocument->get('category_srl'), 'document_srl', '')}"><span cond="$module_info->use_category=='Y' && $oDocument->get('category_srl')" class="uk-text uk-text-warning uikit-bl_ctg">{$category_list[$oDocument->get('category_srl')]->title}</span> </a>
-		<!--//제목--><a href="{$oDocument->getPermanentUrl()}"><strong class="uk-text uikit-bl_tit">{$oDocument->getTitle()}</strong></a> 
+		<!--//제목-->
 		{$lang->update_log}
 		</font>
 	</a>
@@ -55,4 +55,12 @@
 	<li><a href="{getUrl('page',$page_navigation->last_page,'module_srl','')}" class="direction"><span uk-pagination-next></span></a></li>
 </ul>
 <!--// 페이지네이션 끝 -->
+
+<div class="uk-grid-small uk-text-center" uk-grid>
+    <div class="uk-width-auto uk-text-left">
+		<a href="{getUrl('act','','update_id','','document_srl',$oDocument->get('document_srl'))}" class="uk-button uk-button-primary"><i class="fa fa-reply" aria-hidden="true"></i> 돌아가기</a>
+	</div>
+    <div class="uk-width-expand uk-text-right">
+	</div>
+</div>
 <include target="_footer.html" />

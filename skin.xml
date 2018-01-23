@@ -2,7 +2,7 @@
 <skin version="0.2">
     <title xml:lang="ko">UIKIT v3 게시판</title>
     <title xml:lang="en">UIKIT v3 Board</title>
-    <version>1.0.11</version>
+    <version>1.0.12</version>
     <date>2018-01-21</date>
     <author email_address="developers@kikni.com" link="https://www.kikni.com/">
         <name xml:lang="ko">키큰아이</name>
@@ -115,14 +115,14 @@
 		<group>
 		<title xml:lang="ko">[공통] 크기설정</title>
 
-			<var name="board_title_length" type="text">
+			<var name="board_title_length_p" type="text" default="50">
 				<title xml:lang="ko">제목 길이(PC)</title>
 				<description xml:lang="ko">
 					게시글 제목의 길이를 제어할 수 있습니다. (기본값:50)	
 				</description>
 			</var>
-			<var name="board_title_length_m" type="text">
-				<title xml:lang="ko">제목 길이(PC)</title>
+			<var name="board_title_length_m" type="text" default="30">
+				<title xml:lang="ko">제목 길이(Mobile)</title>
 				<description xml:lang="ko">
 					게시글 제목의 길이를 제어할 수 있습니다. (기본값:30)	
 				</description>

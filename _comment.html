@@ -22,7 +22,8 @@
 	</li>
 	<li loop="$oDocument->getComments()=>$key,$comment" id="comment_{$comment->comment_srl}" class="uk-comment  indent indent{$comment->get('depth')}" uk-grid>
 		<div class="uk-width-expand uk-padding-remove">
-			<i cond="$comment->get('depth')" class="reply-icon" uk-icon="icon: reply" style="transform: rotate(180deg)"></i>
+			<i cond="$comment->get('depth')" class="reply-icon fa fa-reply" style="transform: rotate(180deg)"></i>
+			<i ></i>
 			<!--//프로필-->
 			<span class="uk-text uk-text-warning uikit-bl_ctg">
 				<img cond="!$comment->getProfileImage()" src="assets/profile-no.svg" width="26" height="26" class="uk-comment-avatar uk-border-circle tm-profile">
@@ -33,7 +34,7 @@
 				<a cond="$comment->member_srl > 0" href="#popup_menu_area" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
 				<a cond="$comment->member_srl <= 0 && $comment->homepage" href="{$comment->getHomepageUrl()}" class="uk-link-reset">{$comment->getNickName()}</a>
 				<a cond="$comment->member_srl <= 0 && !$comment->homepage" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
-				<span class="icon_writer_txt" cond="$oDocument->get('member_srl') == $comment->get('member_srl')">작성자</span>
+				<span class="icon_writer_txt" cond="$comment->get('member_srl') && ($oDocument->get('member_srl') == $comment->get('member_srl'))">{$lang->writer}</span>
 			</strong>
 			<!--//버튼-->
 			<ul class="uikit-board-cmt_metalist uk-subnav">
@@ -150,7 +151,7 @@
 	</table>
 	
 	<div style="float:right">
-		<button type="submit" class="uk-button uk-button-primary"><i uk-icon="icon: commenting"></i> {$lang->cmd_comment_registration}</button>
+		<button type="submit" class="uk-button uk-button-primary"><i class="fa fa-commenting" aria-hidden="true"></i> {$lang->cmd_comment_registration}</button>
 	</div>
 </form>
 <!--// 댓글 작성폼 끝 -->

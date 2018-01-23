@@ -35,7 +35,7 @@
 <ul class="uk-subnav uk-subnav-pill" uk-margin>
     <li class="uk-active"|cond="!$category"><a href="{getUrl('category','','page','')}">{$lang->total}</a></li>
     <li loop="$cate_list=>$key,$val" class="uk-active"|cond="($parent_srl && $parent_srl==$val->category_srl) || ($category && $category==$val->category_srl)">
-		<a href="{getUrl('category',$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--> <span uk-icon="icon: triangle-down" cond="count($val->children)"></span></a>
+		<a href="{getUrl('category',$val->category_srl,'document_srl','', 'page', '')}">{$val->title}<!--<em cond="$val->document_count">[{$val->document_count}]</em>--> <i cond="count($val->children)" class="fa fa-caret-down" aria-hidden="true"></i></span></a>
         <div uk-dropdown="mode: click;" cond="count($val->children)">
 			<ul class="uk-nav uk-dropdown-nav">
 				<li loop="$val->children=>$idx,$item" class="uk-active"|cond="($parent_srl && $parent_srl==$item->category_srl) || ($category && $category==$item->category_srl)">
@@ -78,13 +78,13 @@
 <!--// 하단 메뉴 시작 -->
 <div class="uk-grid-small uk-text-center" uk-grid>
     <div class="uk-width-auto uk-text-left">
-        <a class="uk-button uk-button-default uk-padding-small-horizontal" style="cursor: pointer;" onclick="jQuery('#search_form_b').toggle();" title="{$lang->cmd_search}"><span uk-icon="icon: search"></span></a>
-		<a href="{getUrl('act','dispBoardTagList')}" class="uk-button uk-button-default" title="{$lang->tag}"><span uk-icon="icon: hashtag"></span></a>
+        <a class="uk-button uk-button-default uk-padding-small-horizontal" style="cursor: pointer;" onclick="jQuery('#search_form_b').toggle();" title="{$lang->cmd_search}"><i class="fa fa-search" aria-hidden="true"></i></a>
+		<a href="{getUrl('act','dispBoardTagList')}" class="uk-button uk-button-default" title="{$lang->tag}"><i class="fa fa-hashtag" aria-hidden="true"></i></a>
 	</div>
     <div class="uk-width-expand uk-text-right">
-    	<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" class="uk-button uk-button-default" onclick="popopen(this.href,'manageDocument'); return false;" title="{$lang->cmd_manage_document}"><span uk-icon="icon: copy"></span> </a>
-		<a cond="$grant->manager" href="{getUrl('act','dispBoardAdminBoardInfo')}" class="uk-button uk-button-default" title="{$lang->cmd_setup}"><span uk-icon="icon: cog"></span></a>
-		<a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="uk-button uk-button-primary" title="{$lang->cmd_write}"><span uk-icon="icon: pencil"></span>  {$lang->cmd_write}</a>
+    	<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" class="uk-button uk-button-default" onclick="popopen(this.href,'manageDocument'); return false;" title="{$lang->cmd_manage_document}"><i class="fa fa-tasks" aria-hidden="true"></i> </a>
+		<a cond="$grant->manager" href="{getUrl('act','dispBoardAdminBoardInfo')}" class="uk-button uk-button-default" title="{$lang->cmd_setup}"><i class="fa fa-cog" aria-hidden="true"></i></a>
+		<a href="{getUrl('act','dispBoardWrite','document_srl','')}" class="uk-button uk-button-primary" title="{$lang->cmd_write}"><i class="fa fa-pencil" aria-hidden="true"></i>  {$lang->cmd_write}</a>
 	</div>
 </div>
 <!--// 하단 메뉴 끝 -->

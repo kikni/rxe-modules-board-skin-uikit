@@ -18,8 +18,7 @@
     <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}#comment" class="uikit-bl_commentarea">
         <em class="num">{$document->getCommentCount()!=0?$document->getCommentCount():'0'}</em>
         <div class="tit">
-            댓글
+            {$lang->comment}
         </div>
     </a>
-
 </li>

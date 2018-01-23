@@ -1,3 +1,4 @@
+
 <include target="_header.html" />
 
 <!--// 게시판 제목 & 설명 -->
@@ -5,7 +6,34 @@
 <!--@if($mi->board_desc)--><p class="uk-text"><font style="vertical-align: inherit;">{$mi->board_desc}</font></p><!--@end-->
 <!-- /게시판 제목 & 설명 -->
 
-<div class="tagList uk-background-muted uk-padding-small uk-margin-small-bottom uk-panel ">
+<style>
+	.tagList a.rank1 .uk-label{
+		font-size:2em;
+		margin:0.1em;
+		background:red;
+	}
+	.tagList a.rank2 .uk-label{
+		font-size:1.8em;
+		margin:0.08em;
+		background:purple;
+	}
+	.tagList a.rank3 .uk-label{
+		font-size:1.4em;
+		margin:0.04em;
+		background:orange;
+	}
+	.tagList a.rank4 .uk-label{
+		font-size:1.2em;
+		margin:0.02em;
+		background:pink;
+	}
+	.tagList a.rank5 .uk-label{
+		font-size:1em;
+		margin:0;
+	}
+</style>
+
+<div class="tagList uk-background-muted uk-padding-small uk-margin-small-bottom uk-panel uk-text-center">
 	<!--@foreach($tag_list as $val)-->
 		<!--@if($val->count>5)-->
 			{@ $tag_class = "rank1" }
@@ -31,7 +59,7 @@
 <!--// 하단 메뉴 시작 -->
 <div class="uk-position-relative uk-padding uk-child-width-expand uk-margin-small-bottom uk-padding-remove"  uk-grid>
 	<div class="uk-text-left">
-		<a href="{getUrl('act','')}" class="uk-button uk-button-default" title="{$lang->cmd_write}"><span uk-icon="icon: reply"></span>  {$lang->cmd_back}</a>
+		<a href="{getUrl('act','')}" class="uk-button uk-button-default" title="{$lang->cmd_write}"><i class="fa fa-commenting" aria-hidden="true"></i> {$lang->cmd_back}</a>
 	</div>
 </div>
 <!--// 하단 메뉴 끝 -->

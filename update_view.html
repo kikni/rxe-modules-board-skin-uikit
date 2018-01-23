@@ -21,7 +21,7 @@ jQuery( document ).ready(
 			<div class="uk-article-meta uk-grid-small uk-text-center uk-margin-remove uk-padding-remove" uk-grid>	
 				<!--// 메타태그 시작 -->
 				<div class="uk-width-auto uk-float-left uk-padding-remove">
-					<span><i uk-icon="icon: clock"></i> {zdate($update_log->regdate,'Y.m.d H:i:s')}</span>
+					<span><i class="fa fa-pencil" aria-hidden="true"></i> {zdate($update_log->regdate,'Y.m.d H:i:s')}</span>
 				</div>
 				<!--// 메타태그 끝 -->
 			</div>
@@ -58,11 +58,20 @@ jQuery( document ).ready(
 		<!-- /READ BODY -->
 	</div>
 
+</div>
+
+<div class="uk-grid-small uk-text-center" uk-grid>
+    <div class="uk-width-auto uk-text-left">
 	<form action="./" method="post" onsubmit="if(!confirm('{$lang->msg_update_log_revert}')) return false; return procFilter(this, window.update)" cond="$update_log->is_admin !== 'Y' && $logged_info->is_admin !=='Y' || $logged_info->is_admin === 'Y'">
 		<input type="hidden" name="module" value="board" />
 		<input type="hidden" name="act" value="procBoardUpdateDocument" />
 		<input type="hidden" name="update_id" value="{$update_log->update_id}" />
 		<button class="uk-button uk-button-default" type="submit">{$lang->cmd_modify_by_update_log}</button>
 	</form>
+	</div>
+    <div class="uk-width-expand uk-text-right">
+		<a href="{getUrl('act','dispBoardUpdateLog','update_id','','document_srl',$update_log->document_srl)}" class="uk-button uk-button-primary"><i class="fa fa-list" aria-hidden="true"></i> {$lang->cmd_list}</a>
+	</div>
 </div>
+<!--// 하단 메뉴 끝 -->
 <include target="_footer.html" />

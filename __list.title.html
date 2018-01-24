@@ -5,14 +5,8 @@
 <!--@end-->
 
 <!--//도큐먼트권한애드온대응-->
-{@
-    $args->document_srl = $document->document_srl;
-    $tmp_output = executeQuery('addons.appoint_view_user.getDocumentExtra', $args);
-    $tmp_output = explode(':"' , $tmp_output->data->extra_vars);
-    $tmp_output = explode('";' , $tmp_output[3]);
-    $tmp_output = explode(',' , $tmp_output[0]);
-}
-<span class="uk-label uk-label-danger" style="font-size:11px;padding:2px 5px;margin-top:-3px;margin-right:3px;" loop="$tmp_output => $val" cond="$val" >{$val}</span>
+{@ $avuser = explode(',', unserialize(executeQuery('addons.appoint_view_user.getDocumentExtra', $document)->data->extra_vars)->avuser ); }
+<span class="uk-label uk-label-danger" style="font-size:11px;padding:2px 5px;margin-top:-3px;margin-right:3px;" loop="$avuser => $val" cond="$val" >{$val}</span>
 
 <!--//공지사항-->
 <!--@if($document->get('is_notice') == 'Y')-->

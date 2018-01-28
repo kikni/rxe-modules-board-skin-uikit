@@ -18,7 +18,7 @@
 <ul class="uikit-cmt-list uk-list uk-text-break">
 	<li loop="$oDocument->getComments()=>$key,$comment" id="comment_{$comment->comment_srl}" class="uk-comment  indent indent{$comment->get('depth')}" uk-grid>
 		<div class="uk-width-expand uk-padding-remove">
-			<i cond="$comment->get('depth')" class="reply-icon fa fa-reply" style="transform: rotate(180deg)"></i>
+			<i cond="$comment->get('depth')" class="reply-icon fas fa-reply" style="transform: rotate(180deg)"></i>
 			<i ></i>
 			<!--//프로필-->
 			<span class="uk-text uk-text-warning uikit-bl_ctg">
@@ -31,7 +31,7 @@
 				<a cond="$comment->member_srl <= 0 && $comment->homepage" href="{$comment->getHomepageUrl()}" class="uk-link-reset">{$comment->getNickName()}</a>
 				<a cond="$comment->member_srl <= 0 && !$comment->homepage" class="member_{$comment->member_srl}" onclick="return false">{$comment->getNickName()}</a>
 				<!--//공개여부-->
-				<i cond="$comment->variables['is_secret']" class="uk-text-muted fa fa-lock"></i>
+				<i cond="$comment->get('is_secret') == 'Y'" class="uk-text-muted fas fa-lock"></i>
 				<!--//글쓴이여부-->
 				<span class="icon_writer_txt" cond="$comment->get('member_srl') && ($oDocument->get('member_srl') == $comment->get('member_srl'))">{$lang->writer}</span>
 			</strong>
@@ -150,7 +150,7 @@
 	</table>
 	
 	<div style="float:right">
-		<button type="submit" class="uk-button uk-button-primary"><i class="fa fa-commenting" aria-hidden="true"></i> {$lang->cmd_comment_registration}</button>
+		<button type="submit" class="uk-button uk-button-primary"><i class="fas fa-pencil-alt" aria-hidden="true"></i> {$lang->cmd_comment_registration}</button>
 	</div>
 </form>
 <!--// 댓글 작성폼 끝 -->

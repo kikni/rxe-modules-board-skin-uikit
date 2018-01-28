@@ -1,4 +1,7 @@
 {@
+	//타임라인 게시판 대응 (없는경우 null처리로 오류방지)
+	if(!$timeline_info) $timeline_info = null;
+	
 	//모듈정보복사
 	$mi=$module_info;
 
@@ -60,16 +63,13 @@
 <load rel="stylesheet" target="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.36/css/uikit.min.css" cond="$mi->board_loadcdn_CSS!='N'"/>
 <load target="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.36/js/uikit.min.js" cond="$mi->board_loadcdn_JS!='N'"/>
 <load target="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.0-beta.36/js/uikit-icons.min.js" cond="$mi->board_loadcdn_JS!='N'"/>
-
 <!--// Font Awesome -->
-<load target="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" cond="$mi->board_loadcdn_CSS!='N'"/>
+<load target="https://use.fontawesome.com/releases/v5.0.6/css/all.css"/>
 
 <!--// Board Load-->
 <load target="assets/uikit.board.css" index="1000" />
 <load target="assets/uikit.board.js" type="body" />
 
-<style>
-</style>
 <!--@if($order_type == "desc")-->
     {@ $order_type = "asc"; }
 <!--@else-->

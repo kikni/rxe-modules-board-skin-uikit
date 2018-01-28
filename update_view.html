@@ -21,7 +21,7 @@ jQuery( document ).ready(
 			<div class="uk-article-meta uk-grid-small uk-text-center uk-margin-remove uk-padding-remove" uk-grid>	
 				<!--// 메타태그 시작 -->
 				<div class="uk-width-auto uk-float-left uk-padding-remove">
-					<span><i class="fa fa-pencil" aria-hidden="true"></i> {zdate($update_log->regdate,'Y.m.d H:i:s')}</span>
+					<span><i class="fas fa-pencil-alt" aria-hidden="true"></i> {zdate($update_log->regdate,'Y.m.d H:i:s')}</span>
 				</div>
 				<!--// 메타태그 끝 -->
 			</div>
@@ -70,7 +70,7 @@ jQuery( document ).ready(
 	</form>
 	</div>
     <div class="uk-width-expand uk-text-right">
-		<a href="{getUrl('act','dispBoardUpdateLog','update_id','','document_srl',$update_log->document_srl)}" class="uk-button uk-button-primary"><i class="fa fa-list" aria-hidden="true"></i> {$lang->cmd_list}</a>
+		<a href="{getUrl('act','dispBoardUpdateLog','update_id','','document_srl',$update_log->document_srl)}" class="uk-button uk-button-primary"><i class="fas fa-list" aria-hidden="true"></i> {$lang->cmd_list}</a>
 	</div>
 </div>
 <!--// 하단 메뉴 끝 -->

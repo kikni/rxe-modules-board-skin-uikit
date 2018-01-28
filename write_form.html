@@ -108,10 +108,10 @@
 
 		<div class="uk-margin">
 			<block cond="!$oDocument->isExists() || $oDocument->get('status') == 'TEMP'">
-				<button cond="$is_logged" class="uk-button uk-button-default fl write-tool-tsl" type="button" onclick="doDocumentSave(this);">{$lang->cmd_temp_save}</button>
-				<button cond="$is_logged" class="uk-button uk-button-default fl write-tool-tsl" type="button" onclick="doDocumentLoad(this);">{$lang->cmd_load}</button>
+				<button cond="$is_logged" class="uk-button uk-button-default fl write-tool-tsl" type="button" onclick="doDocumentSave(this);"><i class="fas fa-cloud-upload-alt" aria-hidden="true"></i> {$lang->cmd_temp_save}</button>
+				<button cond="$is_logged" class="uk-button uk-button-default fl write-tool-tsl" type="button" onclick="doDocumentLoad(this);"><i class="fas fa-cloud-download-alt" aria-hidden="true"></i> {$lang->cmd_load}</button>
 			</block>
-			<button id="cmd_reg" type="submit" class="uk-align-right uk-button uk-button-primary fr">{$lang->cmd_registration}</button>
+			<button id="cmd_reg" type="submit" class="uk-align-right uk-button uk-button-primary fr"><i class="fas fa-pencil-alt" aria-hidden="true"></i> {$lang->cmd_registration}</button>
 		</div>
     </fieldset>
 </form>

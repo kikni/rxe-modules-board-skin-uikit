@@ -43,10 +43,21 @@
     else if (!$f_etc) $f_etc = 1;
 }
 </block>
-<i class="uk-text-muted fa fa-play-circle"  cond="$f_play"></i> <i class="uk-text-muted fa fa-file-image-o" cond="$f_img"></i> <i class="uk-text-muted fa fa-file-archive-o" cond="$f_zip"></i> <i class="uk-text-muted fa fa-file-text-o" cond="$f_txt"></i> <i class="uk-text-muted fa fa-file-word-o" cond="$f_doc"></i> <i class="uk-text-muted fa fa-file-excel-o" cond="$f_xls"></i> <i class="uk-text-muted fa fa-file-powerpoint-o" cond="$f_ppt"></i> <i class="uk-text-muted fa fa-file-pdf-o" cond="$f_pdf"></i> <i class="uk-text-muted fa fa-file-code-o" cond="$f_cod"></i> <i class="uk-text-muted fa fa-file-audio-o" cond="$f_wav"></i> <i class="uk-text-muted fa fa-file-video-o" cond="$f_mov"></i><i class="uk-text-muted fa fa-file-o" cond="$f_etc"></i> 
+<i class="uk-text-muted far fa-file-video"  cond="$f_play"></i> 
+<i class="uk-text-muted far fa-file-image" cond="$f_img"></i> 
+<i class="uk-text-muted far fa-file-archive" cond="$f_zip"></i> 
+<i class="uk-text-muted far fa-file-text" cond="$f_txt"></i> 
+<i class="uk-text-muted far fa-file-word" cond="$f_doc"></i> 
+<i class="uk-text-muted far fa-file-excel" cond="$f_xls"></i> 
+<i class="uk-text-muted far fa-file-powerpoint" cond="$f_ppt"></i> 
+<i class="uk-text-muted far fa-file-pdf" cond="$f_pdf"></i> 
+<i class="uk-text-muted far fa-file-code" cond="$f_cod"></i> 
+<i class="uk-text-muted far fa-file-audio" cond="$f_wav"></i> 
+<i class="uk-text-muted far fa-file-video" cond="$f_mov"></i> 
+<i class="uk-text-muted far fa-file" cond="$f_etc"></i> 
 
 <!--//공개여부-->
-<i cond="in_array('secret',$document->getExtraImages())" class="uk-text-muted fa fa-lock"></i>
+<i cond="in_array('secret',$document->getExtraImages())" class="uk-text-muted a-lock"></i>
 
 <!--//HOT-->
 <span  cond="$mi->hot_cond == 'y' && ($document->get('voted_count') >= $hot_cond_vc || $document->get('readed_count') >= $hot_cond_rc)" class="icon_best_txt">HOT</span> 

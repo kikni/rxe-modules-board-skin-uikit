@@ -22,25 +22,25 @@ jQuery( document ).ready(
 			<span cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() > 0"><a href="#popup_menu_area" class="member_{$oDocument->get('member_srl')} author" onclick="return false">{$oDocument->getNickName()}</a></span>
 			<span cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && $oDocument->isExistsHomepage()"><a href="{$oDocument->getHomepageUrl()}" target="_blank" rel="noopener" class="author">{$oDocument->getNickName()}</a></span>
 			<span cond="$module_info->display_author!='N' && $oDocument->getMemberSrl() <= 0 && !$oDocument->isExistsHomepage()">{$oDocument->getNickName()}</span>
-			<span><i class="fa fa-pencil" aria-hidden="true"></i>  {getTimeGap($oDocument->get('regdate'), $board_date_type)}</span>
-			<span class="uk-visible@s"><i class="fa fa-wrench" aria-hidden="true"></i>  {getTimeGap($oDocument->get('last_update'), $board_date_type)}</span>
-			<span><i class="fa fa-eye" aria-hidden="true"></i> {$oDocument->get('readed_count')}</i> </span>
-			<span><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {$oDocument->get('voted_count')!=0?$oDocument->get('voted_count'):'0'}</span>
-			<span><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {$oDocument->get('blamed_count')!=0?$oDocument->get('blamed_count'):'0'}</span>
+			<span><i class="fas fa-pencil-alt" aria-hidden="true"></i>  {getTimeGap($oDocument->get('regdate'), $board_date_type)}</span>
+			<span class="uk-visible@s"><i class="fas fa-edit" aria-hidden="true"></i>  {getTimeGap($oDocument->get('last_update'), $board_date_type)}</span>
+			<span><i class="fas fa-eye" aria-hidden="true"></i> {$oDocument->get('readed_count')}</i> </span>
+			<span><i class="far fa-thumbs-up" aria-hidden="true"></i> {$oDocument->get('voted_count')!=0?$oDocument->get('voted_count'):'0'}</span>
+			<span><i class="far fa-thumbs-down" aria-hidden="true"></i> {$oDocument->get('blamed_count')!=0?$oDocument->get('blamed_count'):'0'}</span>
 		</div>
 		<!--// 메타태그 끝 -->
 
 		<!--//게시판 간편메뉴 시작-->
 		<div class="uk-width-expand uk-float-right uk-padding-remove">
-			<a class="setup-toggle uk-align-right uk-padding-small-right" uk-toggle="target: #settings-toggle"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></a>
+			<a class="setup-toggle uk-align-right uk-padding-small-right" uk-toggle="target: #settings-toggle"><i class="fas fa-ellipsis-v" aria-hidden="true"></i></a>
             <ul id="settings-toggle" class="setup-toggle uk-list uk-list-divider uk-card uk-card-default uk-card-body uk-padding-remove uk-link-muted" hidden>
                 <li class="uk-padding-small uk-margin-remove uk-text-center">
                     <span class="cursor left" onclick="fontSizeCtr('m');" title="작게">
-						<i class="fa fa-minus" aria-hidden="true"></i>
+						<i class="fas fa-search-minus" aria-hidden="true"></i>
 					</span>
                     <span class="cursor" style="font-size:1.2em;line-height:26px;" title="사이트글꼴크기"> 가 </span>
                     <span class="cursor right" onclick="fontSizeCtr('p');" title="크게">
-						<i class="fa fa-plus" aria-hidden="true"></i>
+						<i class="fas fa-search-plus" aria-hidden="true"></i>
 					</span>
                 </li>
                 <li class="uk-padding-small uk-margin-remove">
@@ -59,7 +59,7 @@ jQuery( document ).ready(
 
     <hr class="uk-hr uk-margin-small uk-padding-small">
 	<!--// 확장변수 출력 시작 -->
-	<table class="uk-table uk-table-striped uk-table-small uk-text-small uk-width-1-1" style="border-bottom:1px solid #e5e5e5" border="0" cellspacing="0" summary="Extra Form Output" cond="(!$oDocument->isSecret() && $oDocument->isGranted()) && $oDocument->isExtraVarsExists()">
+	<table class="uk-table uk-table-striped uk-table-small uk-text-small uk-width-1-1" style="border-bottom:1px solid #e5e5e5" border="0" cellspacing="0" summary="Extra Form Output" cond="($oDocument->isSecret() || !$oDocument->isGranted()) && $oDocument->isExtraVarsExists()">
 		<thead>
 			<tr>
 				<th style="width:20%">{$lang->title}</th>
@@ -94,21 +94,33 @@ jQuery( document ).ready(
 
 	<!--// 내용(하단) 시작 -->
 	<div class="tm-cotent-foot uk-padding">
-		<!--// 추천 비추천 시작 -->
-		<div class="vote uk-width-1-1 uk-text-center uk-padding">
-			<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() < 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;" class="voted uk-link-danger uk-text-muted"> <i class="fa fa-thumbs-up fa-2x uk-text-danger" aria-hidden="true"></i> {$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
-			<a cond="$oDocument->getVoted() > 0" href="#" onclick="doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;" class="voted uk-link-muted"> <i class="fa fa-thumbs-up fa-2x uk-text-danger" aria-hidden="true"></i> {$lang->cmd_vote} {$oDocument->get('voted_count')}</a>
-			&nbsp;&nbsp;&nbsp;
-			<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() > 0" herf="#" onclick="doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;" class="voted uk-link-muted"> <i class="fa fa-thumbs-down fa-2x uk-text-warning" aria-hidden="true"></i> {$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>
-			<a cond="$oDocument->getVoted() < 0" herf="#" onclick="doCallModuleAction('document','procDocumentVoteDownCancel','{$oDocument->document_srl}');return false;" class="voted uk-link-muted"> <i class="fa fa-thumbs-down fa-2x uk-text-warning" aria-hidden="true"></i> {$lang->cmd_vote_down} {$oDocument->get('blamed_count')}</a>	
+		<div class="vote uk-width-1-1 uk-text-center">
+			<ul class="uk-padding-remove" >
+				<li class="uk-button uk-button-default uk-padding-small uk-margin-remove uk-link-muted" style="min-width:100px">
+					<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() < 0" href="#" title="{$lang->cmd_vote}" onclick="doCallModuleAction('document','procDocumentVoteUp','{$oDocument->document_srl}');return false;" class="voted">
+						<i class="far fa-thumbs-up fa-2x"></i><br><!--//{$lang->cmd_vote}--> {$oDocument->get('voted_count')}
+					</a>
+					<a cond="$oDocument->getVoted() > 0" href="#" title="{$lang->cmd_vote}" onclick="doCallModuleAction('document','procDocumentVoteUpCancel','{$oDocument->document_srl}');return false;" class="voted">
+						<i class="far fa-thumbs-up fa-2x"></i><br><!--//{$lang->cmd_vote}--> {$oDocument->get('voted_count')}
+					</a>
+				</li>
+				<li class="uk-button uk-button-default uk-padding-small uk-margin-remove uk-link-muted" style="min-width:100px">
+					<a cond="$oDocument->getVoted() === false || $oDocument->getVoted() > 0" herf="#" title="{$lang->cmd_vote_down}" onclick="doCallModuleAction('document','procDocumentVoteDown','{$oDocument->document_srl}');return false;" class="voted">
+						<i class="far fa-thumbs-down fa-2x"></i><br><!--//{$lang->cmd_vote_down}--> {$oDocument->get('blamed_count')}
+					</a>
+					<a cond="$oDocument->getVoted() < 0" herf="#" title="{$lang->cmd_vote_down}" onclick="doCallModuleAction('document','procDocumentVoteDownCancel','{$oDocument->document_srl}');return false;" class="voted">
+						<i class="far fa-thumbs-down fa-2x"></i><br><!--//{$lang->cmd_vote_down}--> {$oDocument->get('blamed_count')}
+					</a>
+				</li>
+			</ul>
 		</div>
-		<!--// 추천 비추천 끝 -->
 		<!--// SNS 공유 시작 -->
-		<div class="sns uk-width-1-1 uk-text-center">
-			<a href="https://www.facebook.com/" class="facebook uk-link-muted tooltip" title="facebook"><i class="fa fa-facebook-official" aria-hidden="true"></i></a> 
-			<a href="#" class="google uk-link-muted"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a> 
-			<a href="https://twitter.com/" class="twitter uk-link-muted"><i class="fa fa-twitter" aria-hidden="true"></i></a> 
-			<a href="#popup_menu_area" class="document_{$oDocument->document_srl} uk-link-muted" onclick="return false" title="{$lang->cmd_document_do}"><i class="fa fa-plus" aria-hidden="true"></i></a> 
+		<div class="sns uk-width-1-1 uk-text-center" style="text-align:center;">
+			<h5>이 글이 마음에 드셨나요? 지인과 공유해보세요.</h5>
+			<a href="https://www.facebook.com/" class="facebook uk-link-muted" title="facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a> 
+			<a href="#" class="google uk-link-muted"><i class="fab fa-google-plus-g" aria-hidden="true"></i></a> 
+			<a href="https://twitter.com/" class="twitter uk-link-muted"><i class="fab fa-twitter" aria-hidden="true"></i></a> 
+			<a href="#popup_menu_area" class="document_{$oDocument->document_srl} uk-link-muted" onclick="return false" title="{$lang->cmd_document_do}"><i class="fas fa-chevron-circle-down" aria-hidden="true"></i></a> 
 		</div>
 		<script>
 			var sTitle = '{$oDocument->getTitleText()}';
@@ -142,7 +154,7 @@ jQuery( document ).ready(
 				<div class="uk-alert uk-margin-small-bottom">
 					<h6 class="uk-h6 uk-text-bold uk-padding-remove uk-margin-remove">{$file->source_filename}</h6>
 					<span class="fileSize">{FileHandler::filesize($file->file_size)}</span>
-					<i style="top:40%;right:15px;position:absolute;" class="fa fa-download" aria-hidden="true"></i>
+					<i style="top:40%;right:15px;position:absolute;" class="fas fa-download" aria-hidden="true"></i>
 				</div>
 			</a>
 			</li>
@@ -166,16 +178,15 @@ jQuery( document ).ready(
 <hr class="uk-hr">
 <script>
 	function delDocument(trb_srl){
-		var msg = window.confirm('주의! 삭제 후 복구 하실 수 없습니다');
-		var msg1 = window.confirm('정말로 게시글을 삭제합니까?');
-		if( msg && msg1 ){
+		var msg = window.confirm('정말로 게시글을 삭제합니까?');
+		if(msg){
 			var params = new Array();
 			params["document_srl"] = trb_srl;
 			exec_xml("board","procBoardDeleteDocument", params, function(){
 				location.href="{getUrl('mid',$mid,'act','','document_srl','')}"; 
 			})
 		}else{
-			alert(msg);
+			window.alert('취소되었습니다.');
 		}
 	};
 </script>
@@ -183,22 +194,22 @@ jQuery( document ).ready(
 <!--// 하단 메뉴 시작 -->
 <div class="uk-grid-small uk-text-center" uk-grid>
     <div class="uk-width-auto uk-text-left">
-		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardVoteLog','target_srl',$oDocument->document_srl,'target','document')}"><i class="fa fa-users" aria-hidden="true"></i> {$lang->cmd_document_vote_user}</a>
-		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$update_view" ><i class="fa fa-history" aria-hidden="true"></i> {$lang->update_log}</a>
-		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i class="fa fa-wrench" aria-hidden="true"></i> {$lang->cmd_modify}</a>
-		<!--//<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i class="fa fa-trash-o" aria-hidden="true"></i> {$lang->cmd_delete}</a>-->
-		<a class="uk-button uk-button-default" href="#" cond="$oDocument->isEditable()" onclick="delDocument({$oDocument->document_srl});return false"><i class="fa fa-trash-o" aria-hidden="true"></i> {$lang->cmd_delete}</a>
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardVoteLog','target_srl',$oDocument->document_srl,'target','document')}" cond="$grant->vote_log_view == 'Y'"><i class="fas fa-users" aria-hidden="true"></i> {$lang->cmd_document_vote_user}</a>
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$update_view && $grant->update_view =='Y'" ><i class="fas fa-history" aria-hidden="true"></i> {$lang->update_log}</a>
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i class="fas fa-edit" aria-hidden="true"></i> {$lang->cmd_modify}</a>
+		<!--//<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i class="fas fa-trash" aria-hidden="true"></i> {$lang->cmd_delete}</a>-->
+		<a class="uk-button uk-button-default" href="#" cond="$oDocument->isEditable()" onclick="delDocument({$oDocument->document_srl});return false"><i class="fas fa-trash" aria-hidden="true"></i> {$lang->cmd_delete}</a>
 	</div>
     <div class="uk-width-expand uk-text-right">
-		<a href="{getUrl('document_srl','')}" class="uk-button uk-button-primary"><i class="fa fa-list" aria-hidden="true"></i> {$lang->cmd_list}</a>
+		<a href="{getUrl('document_srl','')}" class="uk-button uk-button-primary"><i class="fas fa-list" aria-hidden="true"></i> {$lang->cmd_list}</a>
 	</div>
 </div>
 <!--// 하단 메뉴 끝 -->
 
 <!--// 엮인글 시작 -->
-<include target="_trackback.html" cond="$oDocument->allowTrackback()=='Y' && (!$oDocument->isSecret() || $oDocument->isGranted())"/>
+<include target="_trackback.html" cond="$oDocument->allowTrackback()=='Y' && !$oDocument->isSecret()"/>
 <!--// 엮인글 끝 -->
 
 <!--// 댓글 시작 -->
-<include target="_comment.html"  cond="!$oDocument->isSecret() || $oDocument->isGranted()"/>
+<include target="_comment.html"  cond="!$oDocument->isSecret()"/>
 <!--// 댓글 끝 -->

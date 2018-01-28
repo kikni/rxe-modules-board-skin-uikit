@@ -1,3 +1,18 @@
+@charset "UTF-8";
+@import url(//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css);
+
+
+/* 
+ * Font-awesome 대응
+ */
+.uikit-board .fa, 
+.uikit-board .fab, 
+.uikit-board .fal, 
+.uikit-board .far, 
+.uikit-board .fas{
+	line-height:inherit;
+}
+
 /* 
  * UL,LI LIST CSS
  */
@@ -383,6 +398,10 @@
 .uikit-board .uikit-board-table td.title {
     text-align:left ;
 }
+
+
+.uikit-board .sns a {padding:0;margin:0;}
+.uikit-board .sns a i{border:1px solid #e5e5e5; width:40px;height:40px;line-height:40px;text-align:center;display:inline-block;border-radius:50%;margin:2px 5px;}
 
 /*
 .uikit-board .tm-list-hover,

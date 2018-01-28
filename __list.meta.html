@@ -12,17 +12,17 @@
     <span class="nick member_{$document->get('member_srl')}">{$document->getNickName(15)}</span>
     
     <!--// 등록일 -->
-    <span class="time regdate"><i class="fa fa-pencil" aria-hidden="true"></i> {getTimeGap($document->get('regdate'), $board_date_type)}</span>
+    <span class="time regdate"><i class="fas fa-pencil-alt" aria-hidden="true"></i> {getTimeGap($document->get('regdate'), $board_date_type)}</span>
 
     <!--// 마지막 업데이트 -->
-    <span cond="false" class="time update"><i class="fa fa-wrench" aria-hidden="true"></i> {getTimeGap($document->get('last_update'), $board_date_type)}</span>
+    <span cond="false" class="time update"><i class="fas fa-wrenc" aria-hidden="true"></i> {getTimeGap($document->get('last_update'), $board_date_type)}</span>
 
     <!--// 조회수 -->
-    <span cond="false" class="no readed"><i class="fa fa-eye" aria-hidden="true"></i> {$document->get('readed_count')>0?$document->get('readed_count'):'0'}</span>
+    <span cond="false" class="no readed"><i class="fas fa-eys" aria-hidden="true"></i> {$document->get('readed_count')>0?$document->get('readed_count'):'0'}</span>
 
     <!--// 추천수 -->
-    <span cond="false" class="no voted"><i class="fa fa-thumbs-o-up" aria-hidden="true"></i> {$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</span>
-    <span cond="false" class="no blamed"><i class="fa fa-thumbs-o-down" aria-hidden="true"></i> {$document->get('blamed_count')!=0?$document->get('blamed_count'):'0'}</span>
+    <span cond="false" class="no voted"><i class="far fa-thumbs-up" aria-hidden="true"></i> {$document->get('voted_count')!=0?$document->get('voted_count'):'0'}</span>
+    <span cond="false" class="no blamed"><i class="far fa-thumbs-down" aria-hidden="true"></i> {$document->get('blamed_count')!=0?$document->get('blamed_count'):'0'}</span>
 
     <!--// 댓글 -->
-    <span cond="false" class="no comment"><i class="fa fa-comments-o" aria-hidden="true"></i> {$document->get('comment_count')!=0?$document->get('comment_count'):'0'}</span>
+    <span cond="false" class="no comment"><i class="far fa-comments" aria-hidden="true"></i> {$document->get('comment_count')!=0?$document->get('comment_count'):'0'}</span>

@@ -5,7 +5,7 @@
         <a class="uk-link-muted" herf>{$lang->cmd_list}</a>
         <!--//게시판 간편메뉴 시작-->
         <block>
-            <span class="setup-toggle uk-align-right uk-margin-remove-vertical uk-margin-small-right uk-text" uk-toggle="target: #sort-toggle"><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>
+            <span class="setup-toggle uk-align-right uk-margin-remove-vertical uk-margin-small-right uk-text" uk-toggle="target: #sort-toggle"><i class="fas fa-ellipsis-v" aria-hidden="true"></i></span>
             <ul id="sort-toggle" class="setup-toggle uk-list uk-list-divider uk-card uk-card-default uk-card-body uk-padding-remove uk-link-muted" hidden>
                 <li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index','regdate','order_type',$order_type)}">{$lang->date}</a></li>
                 <li class="uk-padding-small uk-margin-remove uk-text-center"><a href="{getUrl('sort_index','update_order','order_type',$order_type)}">{$lang->last_update}</a></li>

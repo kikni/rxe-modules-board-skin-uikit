@@ -2,8 +2,8 @@
 <skin version="0.2">
     <title xml:lang="ko">UIKIT V3 RXE Board</title>
     <title xml:lang="en">UIKIT V3 RXE Board</title>
-    <version>1.1.0</version>
-    <date>2018-01-28</date>
+    <version>1.1.1</version>
+    <date>2018-01-30</date>
     <author email_address="developers@kikni.com" link="https://www.kikni.com/">
         <name xml:lang="ko">키큰아이</name>
         <name xml:lang="ko">KIKNI</name>
@@ -12,7 +12,7 @@
     <extra_vars>
 		<group>
 		<title xml:lang="ko">[공통] 기본</title>
-			<var name="board_loadcdn_CSS" type="radio">
+			<var name="board_loadcdn_CSS" type="radio" default="Y">
 				<title xml:lang="ko">CSS 외부CDN 불러오기</title>
 				<description xml:lang="ko">기본적으로 외부 CND에서 스크립트를 로드합니다. 커스텀 또는 필요시 사용안함으로 변경하십시요.</description>
 				<options value="">
@@ -22,7 +22,7 @@
 					<title xml:lang="ko">사용안함</title>
 				</options>
 			</var>
-			<var name="board_loadcdn_JS" type="radio">
+			<var name="board_loadcdn_JS" type="radio" default="Y">
 				<title xml:lang="ko">JS 외부CDN 불러오기</title>
 				<description xml:lang="ko">기본적으로 외부 CND에서 스크립트를 로드합니다. 커스텀 또는 필요시 사용안함으로 변경하십시요.</description>
 				<options value="">
@@ -32,13 +32,13 @@
 					<title xml:lang="ko">사용안함</title>
 				</options>
 			</var>
-			<var name="board_style" type="radio">
+			<var name="board_style" type="radio" default="hybrid">
 				<title xml:lang="ko">게시판 스타일</title>
 				<description xml:lang="ko">
                     리스트형, 카드형, 블로그형은 꼭 출력설정에서 섬네일을 추가해주세요!
                     카드형, 블로그형은 꼭 출력설정에서 요약을 추가해주세요! (섬네일 및 내용불러오기를 위한 절차입니다.)
                 </description>
-				<options value="">
+				<options value="hybrid">
 					<title xml:lang="ko">하이브리드 (PC-테이블형, 모바일-리스트형)</title>
 				</options>
 				<options value="table">
@@ -78,35 +78,35 @@
 				<title xml:lang="ko">게시판 설명</title>
 				<description xml:lang="ko">내용을 입력하면 게시판 제목 하단에 설명글이 표시됩니다.</description>
 			</var>
-			<var name="board_category" type="radio">
+			<var name="board_category" type="radio" default="N">
 				<title xml:lang="ko">분류(카테고리)</title>
 				<description xml:lang="ko">목록등 카테고리를 노출 하고 싶으십다면 체크하십시요.</description>
 				<options value="Y">
 					<title xml:lang="ko">사용함</title>
 				</options>
-				<options value="">
+				<options value="N">
 					<title xml:lang="ko">사용안함(기본값)</title>
 				</options>
 			</var>
 
 
-			<var name="read_postauthor_mark" type="radio">
+			<var name="read_postauthor_mark" type="radio" default="N">
 				<title xml:lang="ko">댓글에 게시글 작성자 표시</title>
 				<description xml:lang="ko"></description>
-				<options value="">
+				<options value="Y">
 					<title xml:lang="ko">사용</title>
 				</options>
-				<options value="n">
+				<options value="N">
 					<title xml:lang="ko">사용 안함</title>
 				</options>
 			</var>
-			<var name="read_recomment_mark" type="radio">
+			<var name="read_recomment_mark" type="radio" default="N">
 				<title xml:lang="ko">대댓글에 부모 댓글 작성자 표시</title>
 				<description xml:lang="ko"></description>
-				<options value="">
+				<options value="Y">
 					<title xml:lang="ko">사용</title>
 				</options>
-				<options value="n">
+				<options value="N">
 					<title xml:lang="ko">사용 안함</title>
 				</options>
 			</var>

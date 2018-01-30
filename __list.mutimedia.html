@@ -10,7 +10,7 @@
     <iframe cond="$v_tmp == 'www.youtube.com'" src="{$v_url}" frameborder="0" allowfullscreen></iframe> 
     <iframe cond="$v_tmp == 'player.vimeo.com'" src="{$v_url}" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
     <iframe cond="$v_tmp == 'tv.kakao.com'" src="{$v_url}" frameborder="0" scrolling="no" allowfullscreen></iframe>
-    <iframe cond="$v_tmp == 'www.facebook.com'" src="{$v_url}" frameborder="0" scrolling="no" allowTransparency="true" allowFullScreen="true" style="border:none;overflow:hidden"></iframe>
+    <iframe cond="$v_tmp == 'www.facebook.com'" src="{$v_url}" frameborder="0" scrolling="no" allowTransparency="true" allowFullScreen="true" hidden></iframe>
     <iframe cond="$v_tmp == 'www.facebook.com'" src="{$v_url}" frameborder="0" scrolling="no" allowfullscreen></iframe>
     <iframe cond="$v_tmp == 'naver.com'" src='{$v_url}' frameborder="no" scrolling="no" marginwidth='0' marginheight='0' allowfullscreen></iframe>
     <a class="uk-padding-remove uk-margin-remove" cond="!$v_tmp || $document->thumbnailExists()" href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}" >

@@ -1,5 +1,5 @@
-<div class="uk-width-1-2@s uk-width-1-3@l uk-width-1-4@xl">
-    <div class="uk-card uk-card-default">
+<li class="uk-width-1-2@s uk-width-1-3@l uk-width-1-4@xl">
+    <div class="uk-card uk-card-default <!--@if($document_srl==$document->document_srl)-->uk-active<!--@end-->">
         <div class="uk-card-media-top uk-margin-remove uk-padding-remove" >
             <include target="__list.mutimedia.html" loop="$list_config=>$key,$val" cond="$val->type=='thumbnail'" />
         </div>
@@ -14,4 +14,4 @@
             <span cond="$grant->manager" class="doc_check" style="position:absolute;right:15px; bottom:15px;"><input type="checkbox" name="cart" value="{$document->document_srl}" class="iCheck uk-checkbox" title="Check This Article" onclick="doAddDocumentCart(this)" checked="checked"|cond="$document->isCarted()" /></span>
         </div>
     </div>
-</div>
+</li>

@@ -1,16 +1,11 @@
+<!--%import("../../tpl/filter/delete_comment.xml")-->
 <script>
-	function delComment(cmt_srl){
-		var msg = window.confirm('정말로 댓글을 삭제합니까?');
-		if(msg){
-			var params = new Array();
-			params["comment_srl"] = cmt_srl;
-			exec_xml("board","procBoardDeleteComment", params, function(){
-				location.reload()
-			})
-		}else{
-			alert(msg);
+	function delComment(comment_srl) {
+		if( confirm('삭제하시겠습니까?') ) {
+			$('#del_comment_srl').val(comment_srl);
+			$('#del_comment').submit();
 		}
-	};
+	}
 </script>
 {@$cnt = 0}
 <h2 class="uk-h3 tm-heading-fragment">{$lang->comment} <a href="#comment">{$oDocument->getCommentcount()}</a></h2>
@@ -87,7 +82,7 @@
 			<a cond="$oDocument->allowComment()" href="{getUrl('act','dispBoardReplyComment','comment_srl',$comment->comment_srl)}" class="uikit-board-cmt-btn uk-button uk-button-default registration">{$lang->cmd_comment_registration}</a>
 			<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardModifyComment','comment_srl',$comment->comment_srl)}" class="uikit-board-cmt-btn uk-button uk-button-default modify">{$lang->cmd_modify}</a>	
 			<!--//<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="{getUrl('act','dispBoardDeleteComment','comment_srl',$comment->comment_srl)}" class="uikit-board-cmt-btn uk-button uk-button-default delete">{$lang->cmd_delete}</a>-->
-			<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="#comment_{$comment->comment_srl}" onclick="delComment({$comment->get('comment_srl')});return false" class="uikit-board-cmt-btn uk-button uk-button-default delete">{$lang->cmd_delete}</a>
+			<a cond="$comment->isGranted()||!$comment->get('member_srl')" href="#comment_{$comment->comment_srl}" onclick="delComment('{$comment->comment_srl}');return false;" class="uikit-board-cmt-btn uk-button uk-button-default delete">{$lang->cmd_delete}</a>
 		</div>
 	</li>
 </ul>
@@ -154,3 +149,10 @@
 	</div>
 </form>
 <!--// 댓글 작성폼 끝 -->
+
+<form action="./" method="get" id="del_comment" onsubmit="return procFilter(this, delete_comment)">
+	<input type="hidden" name="mid" value="{$mid}" />
+	<input type="hidden" name="page" value="{$page}" />
+	<input type="hidden" name="document_srl" value="{$oDocument->get('document_srl')}" />
+	<input type="hidden" name="comment_srl" id="del_comment_srl" value="" />
+</form>

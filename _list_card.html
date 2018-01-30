@@ -1,5 +1,4 @@
-
-<ul class="uk-list uikit-bl uk-padding-remove" style="margin:0 !important;padding-remove:0;">
+<ul class="uk-list uikit-bl">
     <li class="uikit-bl_box" style="line-height:2em">
         <span cond="$grant->manager" class="doc_check"><input type="checkbox" onclick="XE.checkboxToggleAll({ doClick:true });" class="iCheck uk-checkbox" title="Check All" /> </span>
         <a class="uk-link-muted" herf>{$lang->cmd_list}</a>
@@ -20,16 +19,12 @@
     </li>
 </ul>
 
-<ul class="uk-list uikit-bl uk-padding-remove" style="margin:0 !important;">
+<ul class="uk-list uikit-bl" style="margin:0 !important;">
     <include loop="$notice_list=>$no,$document" target="__list.list.html" />
 </ul>
 
-<ul class="uk-list uikit-bl uk-padding-remove" style="margin-top:15px">
-    <li>
-        <div class="uk-child-width-expand@s" uk-grid>
-            <include loop="$document_list=>$no,$document" target="__list.card.html" />
-        </div>
-    </li>
+<ul class="uk-list uikit-bl uk-child-width-auto" style="margin-top:15px" uk-grid>
+    <include loop="$document_list=>$no,$document" target="__list.card.html" />
 </ul>
 
 <li style="border-bottom:1px solid #e5e5e5;height:60px;line-height:40px;text-align:center" cond="!$document_list || (!$document_list && $notice_list)">

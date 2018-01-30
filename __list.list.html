@@ -1,4 +1,4 @@
-<li id="uk-docs_{$no}" class="uk-position-relative uk-margin-remove uikit-bl_box">
+<li id="uk-docs_{$no}" class="uk-position-relative uk-margin-remove uikit-bl_box <!--@if($document_srl==$document->document_srl)-->uk-active<!--@end-->">
     <a href="{getUrl('document_srl',$document->document_srl, 'listStyle', $listStyle, 'cpage','')}" class="uikit-bl_titlearea">
         <!--// 제목 -->
         <block loop="$list_config=>$key,$val" cond="$val->type=='title' && $val->idx==-1"><include target="__list.title.html" /></block>

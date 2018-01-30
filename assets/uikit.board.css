@@ -29,7 +29,18 @@
 .uikit-board .uikit-bl_ctg{}
 .uikit-board .uikit-bl_tit{font-weight:normal;color:#1e87f0}
 
+.uikit-board .uikit-bl{
+    padding:0 !important;
+    margin:0 !important;
+}
 
+.uikit-board .uikit-bl li{
+    display:inline-block;
+    vertical-align: top;
+    padding:5px;
+    *display:inline;
+    zoom: 1;
+}
 .uikit-board .uikit-bl_titlearea{
     display: table-cell;
     width: 100%;
@@ -180,6 +191,20 @@
     .uikit-board .board_list{
         font-size:0.95em;
     }
+}
+
+/*
+    list 액션관련
+*/
+.uikit-board .uk-list li .uk-card.uk-active,
+.uikit-board .uk-list li.uikit-bl_box.uk-active,
+.uikit-board tr.uk-active{
+    background:#ffd !important
+}
+.uikit-board .uk-list li .uk-card:hover,
+.uikit-board .uk-list li.uikit-bl_box:hover,
+.uikit-board tr:hover{
+    background:#ffa !important
 }
 
 /*

@@ -53,13 +53,11 @@
 {@$mi->board_style ='blog'}
 <include target="_list_blog.html" />
 <!--@else-->
-	<!--@if($mi->board_style=='')-->
+	<!--@if($mi->board_style=='' || $mi->board_style=='hybrid')-->
 		<!--@if(Mobile::isMobileCheckByAgent())-->	
 		<include target="_list_list.html" />
-		{@$mi->board_style ='list'}
 		<!--@else-->
 		<include target="_list_table.html" />
-		{@$mi->board_style ='table'}
 		<!--@end-->
 	<!--@elseif($mi->board_style=='list')-->
 		<include target="_list_list.html" />
@@ -78,16 +76,16 @@
 <!--// 하단 메뉴 시작 -->
 <div class="uk-grid-small uk-text-center" uk-grid>
     <div class="uk-width-auto uk-text-left">
-        <a class="uk-button uk-button-default uk-padding-small-horizontal" style="cursor: pointer;" onclick="jQuery('#search_form_b').toggle();" title="{$lang->cmd_search}"><i class="fas fa-search" aria-hidden="true"></i></a>
-		<a href="{getUrl('act','dispBoardTagList')}" class="uk-button uk-button-default" title="{$lang->tag}"><i class="fas fa-hashtag" aria-hidden="true"></i></a>
+        <a class="uk-button uk-button-default uk-padding-small-horizontal" style="cursor: pointer;" onclick="jQuery('#search_form_b').toggle();" title="{$lang->cmd_search}"><i class="fas fa-search" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->cmd_search}</font></a>
+		<a href="{getUrl('act','dispBoardTagList')}" class="uk-button uk-button-default" title="{$lang->tag}"><i class="fas fa-hashtag" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->tag}</font></a>
 	</div>
     <div class="uk-width-expand uk-text-right">
-    	<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" class="uk-button uk-button-default" onclick="popopen(this.href,'manageDocument'); return false;" title="{$lang->cmd_manage_document}"><i class="fas fa-tasks" aria-hidden="true"></i> </a>
-		<a cond="$grant->manager" href="{getUrl('act','dispBoardAdminBoardInfo')}" class="uk-button uk-button-default" title="{$lang->cmd_setup}"><i class="fas fa-cogs" aria-hidden="true"></i></a>
+    	<a cond="$grant->manager" href="{getUrl('','module','document','act','dispDocumentManageDocument')}" class="uk-button uk-button-default" onclick="popopen(this.href,'manageDocument'); return false;" title="{$lang->cmd_manage_document}"><i class="fas fa-wrench" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->cmd_manage_document}</font></a>
+		<a cond="$grant->manager" href="{getUrl('act','dispBoardAdminBoardInfo')}" class="uk-button uk-button-default" title="{$lang->cmd_setup}"><i class="fas fa-cogs" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->cmd_setup}</font></a>
 		
-		<a cond="$timeline_info->write != 'Y' && $grant->write_document != 'Y'" href="javascript:alert('{$lang->msg_not_permitted}')" class="uk-button uk-button-primary" title="{$lang->cmd_write}"><i class="fas fa-pencil-alt" aria-hidden="true"></i>  {$lang->cmd_write}</a>
-		<a cond="$timeline_info->write != 'Y' && $grant->write_document == 'Y'" href="{getUrl('act','dispBoardWrite','document_srl','')}" class="uk-button uk-button-primary" title="{$lang->cmd_write}"><i class="fas fa-pencil-alt" aria-hidden="true"></i>  {$lang->cmd_write}</a>
-		<a cond="$timeline_info->write == 'Y' && $grant->write_document == 'Y'" href="{getUrl('act','dispBoardWrite','document_srl','')}" class="uk-button uk-button-primary" title="{$lang->cmd_write}"><i class="fas fa-pencil-alt" aria-hidden="true"></i>  {$lang->cmd_write}</a>
+		<a cond="$grant->write_document != 'Y'" href="javascript:alert('{$lang->msg_not_permitted}')" class="uk-button uk-button-primary" title="{$lang->cmd_write}"><i class="fas fa-pencil-alt" aria-hidden="true"></i><font class="uk-visible@s">  {$lang->cmd_write}</font></a>
+		<a cond="( $timeline_info != null && $timeline_info->write !='Y' ) && $grant->write_document == 'Y'" href="javascript:alert('타임라인 게시판 {$lang->msg_not_permitted}\n 각 게시판을 이용하세요!')" class="uk-button uk-button-primary" title="{$lang->cmd_write}"><i class="fas fa-pencil-alt" aria-hidden="true"></i><font class="uk-visible@s">  {$lang->cmd_write}</font></a>
+		<a cond="( $timeline_info == null && $timeline_info->write !='Y' ) && $grant->write_document == 'Y'" href="{getUrl('act','dispBoardWrite','document_srl','')}" class="uk-button uk-button-primary" title="{$lang->cmd_write}"><i class="fas fa-pencil-alt" aria-hidden="true"></i><font class="uk-visible@s">  {$lang->cmd_write}</font></a>
 	</div>
 </div>
 <!--// 하단 메뉴 끝 -->

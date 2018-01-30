@@ -1,12 +1,17 @@
-
+<!--%import("../../tpl/filter/delete_document.xml")-->
 <script>
-jQuery( document ).ready( 
-	function( $ ) {
-		// XECOTENT내부 반응형을 위한 코드
-		$('.uikit-board .xe_content iframe').wrap('<div class="tm-thumnail"></div>');
-		$('.uikit-board .xe_content embed').wrap('<div class="tm-thumnail"></div>');
+	function delDocument(document_srl) {
+		if( confirm('삭제하시겠습니까?') ) {
+			$('#del_document').submit();
+		}
 	}
-);
+	jQuery( document ).ready( 
+		function( $ ) {
+			// XECOTENT내부 반응형을 위한 코드
+			$('.uikit-board .xe_content iframe').wrap('<div class="tm-thumnail"></div>');
+			$('.uikit-board .xe_content embed').wrap('<div class="tm-thumnail"></div>');
+		}
+	);
 </script>
 <article id="article" class="uk-article tm-article-document uk-text-break">
 	<!--// 제목 시작 -->
@@ -57,9 +62,11 @@ jQuery( document ).ready(
 		<!--//게시판 간편메뉴 끝-->
 	</div>
 
-    <hr class="uk-hr uk-margin-small uk-padding-small">
+	<hr class="uk-hr uk-margin-small uk-padding-small">
+	
+	<block cond="!$oDocument->isSecret() || $oDocument->isGranted()">
 	<!--// 확장변수 출력 시작 -->
-	<table class="uk-table uk-table-striped uk-table-small uk-text-small uk-width-1-1" style="border-bottom:1px solid #e5e5e5" border="0" cellspacing="0" summary="Extra Form Output" cond="($oDocument->isSecret() || !$oDocument->isGranted()) && $oDocument->isExtraVarsExists()">
+	<table class="uk-table uk-table-striped uk-table-small uk-text-small uk-width-1-1" style="border-bottom:1px solid #e5e5e5" border="0" cellspacing="0" summary="Extra Form Output" cond="$oDocument->isExtraVarsExists()">
 		<thead>
 			<tr>
 				<th style="width:20%">{$lang->title}</th>
@@ -74,6 +81,7 @@ jQuery( document ).ready(
 		</tbody>
 	</table>
 	<!--// 확장변수 출력 끝 -->
+	</block>
 
 	<!--// 내용 시작 -->
     <div class="tm-content uk-width-1-1 uk-text-break">
@@ -173,35 +181,26 @@ jQuery( document ).ready(
 		</div>
 	</div>
 
+	<form action="./" method="get" id="del_document" onsubmit="return procFilter(this, delete_document)">
+		<input type="hidden" name="mid" value="{$mid}" />
+		<input type="hidden" name="page" value="{$page}" />
+		<input type="hidden" name="document_srl" value="{$document_srl}" />
+	</form>
 </article>
 
 <hr class="uk-hr">
-<script>
-	function delDocument(trb_srl){
-		var msg = window.confirm('정말로 게시글을 삭제합니까?');
-		if(msg){
-			var params = new Array();
-			params["document_srl"] = trb_srl;
-			exec_xml("board","procBoardDeleteDocument", params, function(){
-				location.href="{getUrl('mid',$mid,'act','','document_srl','')}"; 
-			})
-		}else{
-			window.alert('취소되었습니다.');
-		}
-	};
-</script>
 
 <!--// 하단 메뉴 시작 -->
 <div class="uk-grid-small uk-text-center" uk-grid>
     <div class="uk-width-auto uk-text-left">
-		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardVoteLog','target_srl',$oDocument->document_srl,'target','document')}" cond="$grant->vote_log_view == 'Y'"><i class="fas fa-users" aria-hidden="true"></i> {$lang->cmd_document_vote_user}</a>
-		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$update_view && $grant->update_view =='Y'" ><i class="fas fa-history" aria-hidden="true"></i> {$lang->update_log}</a>
-		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i class="fas fa-edit" aria-hidden="true"></i> {$lang->cmd_modify}</a>
-		<!--//<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i class="fas fa-trash" aria-hidden="true"></i> {$lang->cmd_delete}</a>-->
-		<a class="uk-button uk-button-default" href="#" cond="$oDocument->isEditable()" onclick="delDocument({$oDocument->document_srl});return false"><i class="fas fa-trash" aria-hidden="true"></i> {$lang->cmd_delete}</a>
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardVoteLog','target_srl',$oDocument->document_srl,'target','document')}" cond="$grant->vote_log_view == 'Y'"><i class="fas fa-users" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->cmd_document_vote_user}</font></a>
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardUpdateLog','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$update_view && $grant->update_view =='Y'" ><i class="fas fa-history" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->update_log}</font></a>
+		<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardWrite','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i class="fas fa-edit" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->cmd_modify}</font></a>
+		<!--//<a class="uk-button uk-button-default" href="{getUrl('act','dispBoardDelete','document_srl',$oDocument->document_srl,'comment_srl','')}" cond="$oDocument->isEditable()"><i class="fas fa-trash" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->cmd_delete}</font></a>-->
+		<a class="uk-button uk-button-default" href="#" cond="$oDocument->isEditable()" onclick="delDocument({$oDocument->document_srl});return false"><i class="fas fa-trash" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->cmd_delete}</font></a>
 	</div>
     <div class="uk-width-expand uk-text-right">
-		<a href="{getUrl('document_srl','')}" class="uk-button uk-button-primary"><i class="fas fa-list" aria-hidden="true"></i> {$lang->cmd_list}</a>
+		<a href="{getUrl('document_srl','')}" class="uk-button uk-button-primary"><i class="fas fa-list" aria-hidden="true"></i><font class="uk-visible@s"> {$lang->cmd_list}</font></a>
 	</div>
 </div>
 <!--// 하단 메뉴 끝 -->
